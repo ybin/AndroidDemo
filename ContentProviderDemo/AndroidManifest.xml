@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.provider"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="16" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- MIME类型 -->
+            <intent-filter>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.scott.person" />
+            </intent-filter>
+            <intent-filter>
+                <data android:mimeType="vnd.android.cursor.item/vnd.scott.person" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name=".PersonProvider"
+            android:authorities="com.example.provider.PersonProvider"
+            android:permission="com.example.provider.permission"
+            android:multiprocess="true" />
+    </application>
+
+</manifest>

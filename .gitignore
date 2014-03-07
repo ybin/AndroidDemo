@@ -1,0 +1,8 @@
+##
+**/bin/*
+**/gen/*
+**/libs/*
+**/proguard/*
+**/*.classpath
+**/*.project
+**/*.mp4

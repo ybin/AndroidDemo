@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="init"
+		android:onClick="init" />
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="query"
+		android:onClick="query" />
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="insert"
+		android:onClick="insert" />
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="update"
+		android:onClick="update" />
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="delete"
+		android:onClick="delete" />
+		
+	<ListView
+		android:id="@+id/listView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+
+</LinearLayout>
