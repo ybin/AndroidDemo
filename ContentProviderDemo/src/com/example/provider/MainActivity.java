@@ -2,6 +2,8 @@ package com.example.provider;
 
 import java.util.ArrayList;
 
+import com.example.util.T;
+
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
@@ -40,6 +42,8 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.v(TAG, "onCreate() in " + T.__FILE__());
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
