@@ -16,9 +16,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 	
@@ -64,7 +71,10 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 				new String[] { "name", "info" }, // column name
 				new int[] {	android.R.id.text1, android.R.id.text2 }, // view id
 				0);
-		((ListView) findViewById(R.id.listView)).setAdapter(mCursorAdapter);
+		ListView lv = (ListView) findViewById(R.id.listView);
+		lv.setAdapter(mCursorAdapter);
+		// register context menu for ListView
+		registerForContextMenu(lv);
 	}
 
 	private boolean clearDB() {
@@ -192,7 +202,7 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 	// -------- LoaderManager.LoaderCallbacks -------- //
 	
-	
+	// -------- wrap the cursor ---------//
 	class MyCursorWrapper extends CursorWrapper {
 		public MyCursorWrapper(Cursor cursor) {
 			super(cursor);
@@ -208,5 +218,83 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 			return super.getString(columnIndex);
 		}
 	}
+	// -------- wrap the cursor ---------//
+	
+	//--------- Context Menu -----------//
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		
+		// create our menu, the result will be
+		// saved in 'menu'
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+		
+		menu.setHeaderTitle("This is ContextMenu...");
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// how can I get the target view? e.g. a list in ListView
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+		// android.R.layout.simple_list_item_2
+		View target = info.targetView;
+		TextView text1 = (TextView) target.findViewById(android.R.id.text1);
+		TextView text2 = (TextView) target.findViewById(android.R.id.text2);
+		Log.v(TAG, "onContextItemSelected: item id = " + item.getItemId()
+				+ ", text1 = " + text1.getText() + ", text2 = " + text2.getText());
+		
+		// deal with each item
+		switch (item.getItemId()) {
+			case R.id.option_0:
+				return true;
+			case R.id.option_1:
+				return true;
+			case R.id.option_2:
+				return true;
+			case R.id.option_3:
+				return true;
+			default:
+				return super.onContextItemSelected(item);
+		}
+	}
+	
+	@Override
+	public void onContextMenuClosed(Menu menu) {
+		super.onContextMenuClosed(menu);
+	}
+	//--------- Context Menu -----------//
+	
+	//--------- Options Menu -----------//
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.option_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// deal with each item
+		switch (item.getItemId()) {
+			case R.id.option_0:
+				return true;
+			case R.id.option_1:
+				return true;
+			case R.id.option_2:
+				return true;
+			case R.id.option_3:
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	@Override
+	public void onOptionsMenuClosed(Menu menu) {
+		super.onOptionsMenuClosed(menu);
+	}
+	//--------- Options Menu -----------//
 	
 }
