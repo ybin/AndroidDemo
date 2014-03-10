@@ -68,7 +68,16 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 		
 		
 		// cursor is null, that's OK!
-		mCursorAdapter = new SimpleCursorAdapter(
+//		mCursorAdapter = new SimpleCursorAdapter(
+//				this,
+//				android.R.layout.simple_list_item_2,
+//				null,
+//				new String[] { "name", "info" }, // column name
+//				new int[] {	android.R.id.text1, android.R.id.text2 }, // view id
+//				0);
+		// 参数跟SimpleCursorAdapter一样，新的adapter只是在bindView()时添加了一个
+		// 长按监听器弹出popup window而已。
+		mCursorAdapter = new PopupCursorAdapter(
 				this,
 				android.R.layout.simple_list_item_2,
 				null,
@@ -78,7 +87,7 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 		ListView lv = (ListView) findViewById(R.id.listView);
 		lv.setAdapter(mCursorAdapter);
 		// register context menu for ListView
-		registerForContextMenu(lv);
+//		registerForContextMenu(lv);
 	}
 
 	private boolean clearDB() {
