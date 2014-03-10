@@ -9,23 +9,31 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.CursorWrapper;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -37,7 +45,8 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	private static final int LOADER_ID_0 = 0;
 	private SimpleCursorAdapter mCursorAdapter;
-
+	private int mPopupWindowWidth;
+	private PopupWindow mPopup;
 	private Handler mHandler;
 
 	@Override
@@ -66,30 +75,52 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// loader managing
 		getLoaderManager().initLoader(LOADER_ID_0, null, this);
 		
+		mPopupWindowWidth =
+				getResources().getDisplayMetrics().widthPixels / 2;
+		
+		LayoutInflater inflater =
+				(LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout contentView = (LinearLayout) inflater.inflate(
+				R.layout.popup_content, null);
+		mPopup = new PopupWindow(contentView, mPopupWindowWidth,
+				LayoutParams.WRAP_CONTENT, true);
+		mPopup.setTouchable(true);
+		mPopup.setOutsideTouchable(true);
+		mPopup.setBackgroundDrawable(new BitmapDrawable());
 		
 		// cursor is null, that's OK!
-//		mCursorAdapter = new SimpleCursorAdapter(
-//				this,
-//				android.R.layout.simple_list_item_2,
-//				null,
-//				new String[] { "name", "info" }, // column name
-//				new int[] {	android.R.id.text1, android.R.id.text2 }, // view id
-//				0);
-		// 参数跟SimpleCursorAdapter一样，新的adapter只是在bindView()时添加了一个
-		// 长按监听器弹出popup window而已。
-		mCursorAdapter = new PopupCursorAdapter(
+		mCursorAdapter = new SimpleCursorAdapter(
 				this,
 				android.R.layout.simple_list_item_2,
 				null,
 				new String[] { "name", "info" }, // column name
 				new int[] {	android.R.id.text1, android.R.id.text2 }, // view id
 				0);
+		// 参数跟SimpleCursorAdapter一样，新的adapter只是在bindView()时添加了一个
+		// 长按监听器弹出popup window而已。
+//		mCursorAdapter = new PopupCursorAdapter(
+//				this,
+//				android.R.layout.simple_list_item_2,
+//				null,
+//				new String[] { "name", "info" }, // column name
+//				new int[] {	android.R.id.text1, android.R.id.text2 }, // view id
+//				0);
 		ListView lv = (ListView) findViewById(R.id.listView);
 		lv.setAdapter(mCursorAdapter);
+		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View v,
+					int position, long id) {
+				Log.v(TAG, "onItemLongClick()");
+				mPopup.showAsDropDown(v, (v.getWidth() - mPopupWindowWidth) / 2, 5);
+				return true;
+			}
+		});
+		
 		// register context menu for ListView
 //		registerForContextMenu(lv);
 	}
-
+	
 	private boolean clearDB() {
 		// delete all items
 		if(mResolver.delete(PersonProviderConstants.PERSON_ALL_URI, null, null) != -1) {

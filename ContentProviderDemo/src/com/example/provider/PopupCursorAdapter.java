@@ -30,7 +30,6 @@ public class PopupCursorAdapter extends SimpleCursorAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout contentView = (LinearLayout) inflater.inflate(
 				R.layout.popup_content, null);
-//		contentView.setRotation(180);
 		mPopup = new PopupWindow(contentView, mPopupWindowWidth,
 				LayoutParams.WRAP_CONTENT, true);
 		mPopup.setTouchable(true);
@@ -41,13 +40,12 @@ public class PopupCursorAdapter extends SimpleCursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		super.bindView(view, context, cursor);
-
 		view.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
 				Log.v(TAG, "onLongClick()");
 				showPopupContent(v);
-				return true;
+				return false;
 			}
 		});
 	}
