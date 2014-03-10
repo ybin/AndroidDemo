@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
     android:background="@drawable/click"
     android:orientation="horizontal" >
 
@@ -12,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:padding="10dp"
         android:textColor="#FFF"
+        android:textSize="15sp"
         android:text="Update" />
 
     <TextView
@@ -22,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:padding="10dp"
         android:textColor="#FFF"
+        android:textSize="15sp"
         android:text="Share" />
 
     <TextView
@@ -32,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:padding="10dp"
         android:textColor="#FFF"
+        android:textSize="15sp"
         android:text="Delete" />
 
 </LinearLayout>

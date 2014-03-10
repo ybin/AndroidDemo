@@ -15,7 +15,7 @@ import android.widget.SimpleCursorAdapter;
 public class PopupCursorAdapter extends SimpleCursorAdapter {
 	public static final String TAG = "PopupCursorAdapter";
 	
-	private int mPopupWindowWidth = 400;
+	private int mPopupWindowWidth;
 	private PopupWindow mPopup;
 
 	public PopupCursorAdapter(Context context, int layout, Cursor c,
@@ -23,10 +23,14 @@ public class PopupCursorAdapter extends SimpleCursorAdapter {
 		super(context, layout, c, from, to, flags);
 		Log.v(TAG, "PopupCursorAdapter::constructor");
 		
+		mPopupWindowWidth =
+				context.getResources().getDisplayMetrics().widthPixels / 2;
+		
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout contentView = (LinearLayout) inflater.inflate(
 				R.layout.popup_content, null);
+//		contentView.setRotation(180);
 		mPopup = new PopupWindow(contentView, mPopupWindowWidth,
 				LayoutParams.WRAP_CONTENT, true);
 		mPopup.setTouchable(true);
@@ -51,6 +55,6 @@ public class PopupCursorAdapter extends SimpleCursorAdapter {
 	private void showPopupContent(View v) {
 		Log.v(TAG, "showPopupContent()");
 
-		mPopup.showAsDropDown(v, (v.getWidth() - 400) / 2, 5);
+		mPopup.showAsDropDown(v, (v.getWidth() - mPopupWindowWidth) / 2, 5);
 	}
 }
