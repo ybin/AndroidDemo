@@ -1,19 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_dark" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="xxxxxxxxxxxxxxxxxxxxxx" />
+    <!-- including top half & middle progress bar & bottom half -->
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:scaleType="fitStart"
-        android:src="@drawable/movie" />
+        android:orientation="vertical" >
+
+        <!-- top half -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:background="@android:color/background_light"
+            android:orientation="horizontal" >
+
+            <!-- 占位符 -->
+
+            <TextView
+                android:layout_width="@dimen/widget_left_width"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+            <!-- 歌曲名称、艺术家名称 -->
+
+            <LinearLayout
+                android:id="@+id/widget_title_and_artist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1dip"
+                    android:singleLine="true"
+                    android:textColor="@android:color/background_dark"
+                    android:text="Unknown title"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="1dip"
+                    android:singleLine="true"
+                    android:textColor="@android:color/background_dark"
+                    android:text="Unknown artist"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- 收藏按钮 -->
+
+            <ImageView
+                android:id="@+id/control_favourite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/music_collection_pressed" />
+        </LinearLayout>
+
+        <!-- middle progress bar -->
+
+        <ProgressBar
+            android:id="@+id/progressbar_dur"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:paddingLeft="@dimen/widget_album_img_width"
+            android:progressDrawable="@drawable/seekbar_widget_style" >
+        </ProgressBar>
+
+        <!-- bottom half -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="@android:color/background_dark"
+            android:gravity="center_vertical" >
+
+            <!-- 占位符 -->
+
+            <TextView
+                android:id="@+id/widget_bottom_empty"
+                android:layout_width="@dimen/widget_left_width"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true" />
+
+            <!-- 歌曲时间信息 -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/widget_bottom_empty"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/currenttime"
+                    android:layout_width="32dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:maxHeight="16dip"
+                    android:singleLine="true"
+                    android:text="@string/zoe_time"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:maxHeight="16dip"
+                    android:singleLine="true"
+                    android:text="@string/slash"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/duration"
+                    android:layout_width="32dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dip"
+                    android:maxHeight="16dip"
+                    android:singleLine="true"
+                    android:text="@string/zoe_time"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- 播放控制按钮 -->
+
+            <RelativeLayout
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp" >
+
+                <ImageView
+                    android:id="@+id/control_prev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:maxWidth="35dp"
+                    android:src="@drawable/ic_widget_music_prev" />
+
+                <ImageView
+                    android:id="@+id/control_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/app_name"
+                    android:maxWidth="35dp"
+                    android:src="@drawable/ic_widget_music_play" />
+
+                <ImageView
+                    android:id="@+id/control_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:maxWidth="35dp"
+                    android:src="@drawable/ic_widget_music_next" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- album image -->
+
+    <RelativeLayout
+        android:layout_width="@dimen/widget_album_img_width"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/album_appwidget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_album_cover_default" />
+    </RelativeLayout>
 
 </FrameLayout>

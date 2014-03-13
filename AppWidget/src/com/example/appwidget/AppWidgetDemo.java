@@ -21,14 +21,6 @@ public class AppWidgetDemo extends AppWidgetProvider {
 			int id = appWidgetIds[i];
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.widget_main_layout);
-//			Bundle options = appWidgetManager.getAppWidgetOptions(i);
-//			int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-//			int maxWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-//
-//			int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-//			int maxHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
-//			Log.v(TAG, "minW, maxW, minH, maxH: " + minWidth + ", " + maxWidth
-//					+ ", " + minHeight + ", " + maxHeight);
 			appWidgetManager.updateAppWidget(id, views);
 		}
 	}

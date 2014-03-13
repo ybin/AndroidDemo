@@ -1,5 +1,7 @@
 <resources>
 
     <string name="app_name">AppWidget</string>
+    <string name="zoe_time">0:00</string>
+    <string name="slash">" / "</string>
 
 </resources>
