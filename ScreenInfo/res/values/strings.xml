@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ScreenInfo</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="show_display_info">Show screen information!</string>
+    <string name="button_text">Click to show screen information!</string>
+
+</resources>
