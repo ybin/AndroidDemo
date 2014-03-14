@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -40,14 +41,17 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 	
 	public static final String TAG = "ContentProviderDemo";
+	public static final int YOFFSET = 5;
 
 	private ContentResolver mResolver;
 
 	private static final int LOADER_ID_0 = 0;
 	private SimpleCursorAdapter mCursorAdapter;
-	private int mPopupWindowWidth;
 	private PopupWindow mPopup;
+	private LinearLayout mPopupContentView;
+	private int mPopupWindowWidth;
 	private Handler mHandler;
+	private View mCurrentItem;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,18 +79,9 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// loader managing
 		getLoaderManager().initLoader(LOADER_ID_0, null, this);
 		
-		mPopupWindowWidth =
-				getResources().getDisplayMetrics().widthPixels / 2;
-		
-		LayoutInflater inflater =
-				(LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		LinearLayout contentView = (LinearLayout) inflater.inflate(
-				R.layout.popup_content, null);
-		mPopup = new PopupWindow(contentView, mPopupWindowWidth,
-				LayoutParams.WRAP_CONTENT, true);
-		mPopup.setTouchable(true);
-		mPopup.setOutsideTouchable(true);
-		mPopup.setBackgroundDrawable(new BitmapDrawable());
+		// prepare popup window
+//		mPopupWindowWidth = getResources().getDisplayMetrics().widthPixels / 2;
+		preparePopupWindow();
 		
 		// cursor is null, that's OK!
 		mCursorAdapter = new SimpleCursorAdapter(
@@ -112,13 +107,49 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor> {
 			public boolean onItemLongClick(AdapterView<?> parent, View v,
 					int position, long id) {
 				Log.v(TAG, "onItemLongClick()");
-				mPopup.showAsDropDown(v, (v.getWidth() - mPopupWindowWidth) / 2, 5);
+				// 保存当前view，在ViewTreeObserver回调函数中使用
+				mCurrentItem = v;
+				// 仅仅是'试图'去show，真正的show在ViewTreeObserver回调函数中
+				mPopup.showAsDropDown(v, (v.getWidth()-mPopupWindowWidth)/2, YOFFSET);
 				return true;
 			}
 		});
 		
 		// register context menu for ListView
 //		registerForContextMenu(lv);
+	}
+	
+	private void preparePopupWindow() {
+		LayoutInflater inflater =
+				(LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mPopupContentView = (LinearLayout) inflater.inflate(
+				R.layout.popup_content, null);
+		mPopup = new PopupWindow(mPopupContentView, LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT, true);
+		/* 通过该回调我们得到popup window的实际宽度，以便将该popup window
+		 * 定位到list item的中间部分，注意更新popup window。
+		 * 但是有个问题：onPreDraw()似乎只调用两次，以后就再也不调用了，
+		 * 其实这能解释的通，因为如果用户从onPreDraw()中invalidate()的话
+		 * 不就进入死循环了吗！？所以只调用有限次。所以我们必须定义一个
+		 * 变量保存popup window的宽度值，如果这个值每次都改变的话，
+		 * PreDrawListener就不管用了，用OnDrawListener可以嘛？！
+		 */ 
+		mPopupContentView.getViewTreeObserver().addOnPreDrawListener(
+				new OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						Log.v(TAG, "onPreDraw()");
+						mPopupWindowWidth = mPopupContentView.getWidth();
+						mPopup.update(mCurrentItem,
+								(mCurrentItem.getWidth()-mPopupWindowWidth)/2,
+								YOFFSET,
+								-1, -1);
+						return true;
+					}
+				});
+		mPopup.setTouchable(true);
+		mPopup.setOutsideTouchable(true);
+		mPopup.setBackgroundDrawable(new BitmapDrawable());
 	}
 	
 	private boolean clearDB() {
