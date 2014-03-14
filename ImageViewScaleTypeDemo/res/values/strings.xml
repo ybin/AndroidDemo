@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ImageViewScaleTypeDemo</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="description">below are: ImageView, big image, small image</string>
+    
+    <string name="scale_type_center">center</string>
+    <string name="scale_type_center_crop">centerCrop</string>
+    <string name="scale_type_center_inside">centerInside</string>
+    <string name="scale_type_fit_center">fitCenter</string>
+    <string name="scale_type_fit_end">fitEnd</string>
+    <string name="scale_type_fit_start">fitStart</string>
+    <string name="scale_type_fit_xy">fitXY</string>
+    <string name="scale_type_matrix">matrix</string>
+
+</resources>
