@@ -4,5 +4,11 @@
     <string name="app_name">DrawableDemo</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="feedback_label">
+	<![CDATA[
+    Please <a href="http://highlight.com">let us know</a> if you have feedback on this or if 
+    you would like to log in with another identity service. Thanks! This is a longer string!  
+  	]]>
+    </string>
 
 </resources>

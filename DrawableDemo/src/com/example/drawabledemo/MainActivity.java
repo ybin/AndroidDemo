@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -31,7 +32,14 @@ public class MainActivity extends Activity {
 		inverseImage(getResources().getDrawable(R.drawable.bg),
 				Environment.getExternalStoragePublicDirectory(
 						Environment.DIRECTORY_MOVIES) + "/inverse.png");
+		int resId = getResources().getIdentifier("hello_world", "string", getPackageName());
+		String name = getResources().getResourceName(resId);
+		getResources().getResourceName(resId);
+		Log.v(TAG, "xxx: " + getString(resId));
+		Log.v(TAG, "name: " + name);
+		Log.v(TAG, "config: " + getResources().getConfiguration().toString());
 	}
+	
 
 	/*
 	 * 利用Canvas把一个Drawable对象写入Bitmap对象中，
