@@ -11,27 +11,31 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements ServiceConnection {
 
 	public static final String TAG = "PlayMusicBackground";
 	
-	public static final String MEDIA_PLAYBACK_SERVICE = "cn.zte.music.musicservicecommand.startmusic";
+	public static final String MEDIA_PLAYBACK_SERVICE =
+			"cn.zte.music.musicservicecommand.startmusic";
 	private IMediaPlaybackService mService;
 	private boolean mServiceStarted;
+	private EditText mMusicText;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		mMusicText = (EditText) findViewById(R.id.music_name);
 	}
 	
 	@Override
 	protected void onStart() {
 		super.onStart();
-		// start music service
-		Intent i = new Intent(MEDIA_PLAYBACK_SERVICE);
-		bindService(i, this, Service.BIND_AUTO_CREATE);
+		startMusicService();
 	}
 
 	@Override
@@ -40,15 +44,69 @@ public class MainActivity extends Activity implements ServiceConnection {
 		unbindService(this);
 		super.onStop();
 	}
+	
+	private void startMusicService() {
+		// start music service
+		Intent i = new Intent(MEDIA_PLAYBACK_SERVICE);
+		bindService(i, this, Service.BIND_AUTO_CREATE);
+	}
+	
 
+	//------------------- button listeners -------------------//
 	// onClick listener of 'play' button
 	public void play(View v) {
+		Log.v(TAG, "service started? " + mServiceStarted);
 		if(!mServiceStarted) {
 			return;
 		}
 		
 		try {
 			mService.play();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	// onClick listener of 'play special' button
+	public void playSpecial(View v) {
+		if("".equals(mMusicText.getText().toString())) {
+			Toast.makeText(MainActivity.this,
+					"Are you kidding me?!", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		String track = mMusicText.getText().toString();
+		Log.v(TAG, "track: " + track);
+		try {
+			mService.openFile(track);
+			mService.play();
+		} catch (RemoteException e) {
+			Log.v(TAG, "open file error.");
+			e.printStackTrace();
+		}
+	}
+	// onClick listener of 'next' button
+	public void next(View v) {
+		if(!mServiceStarted) {
+			return;
+		}
+		
+		try {
+			mService.next();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// onClick listener of 'prev' button
+	public void prev(View v) {
+		if(!mServiceStarted) {
+			return;
+		}
+		
+		try {
+			mService.prev();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +124,22 @@ public class MainActivity extends Activity implements ServiceConnection {
 			e.printStackTrace();
 		}
 	}
+	
+	// onClick listener of 'stop' button
+	// Attention!!!
+	public void stop(View v) {
+		if(!mServiceStarted) {
+			return;
+		}
+		
+		try {
+			mService.stop();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	//------------------- button listeners -------------------//
+	
 
 	//------------------- ServiceConnection -------------------//
 	@Override

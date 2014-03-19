@@ -23,7 +23,6 @@ public class MainActivity extends Activity {
 	private void sendNotification() {
 		NotificationManager notiManager =
 				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		long when = System.currentTimeMillis() + 7000;
 		PendingIntent pIntent = PendingIntent.getActivity(this, 0,
 				new Intent(this, MainActivity.class),
 				PendingIntent.FLAG_CANCEL_CURRENT);
@@ -34,7 +33,7 @@ public class MainActivity extends Activity {
 				.setLargeIcon(BitmapFactory.decodeResource(getResources(),
 						android.R.drawable.stat_notify_chat))
 				.setContentIntent(pIntent)
-				.setWhen(when)
+				.setWhen(System.currentTimeMillis())
 				.setShowWhen(true)
 				.setDefaults(Notification.DEFAULT_SOUND)
 				.setAutoCancel(true)
