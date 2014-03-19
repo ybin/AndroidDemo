@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomView">
+        <attr name="text" format="string" />
+        <attr name="fontColor" format="color" />
+        <attr name="fontSize" format="dimension" />
+        <!--
+        <attr name="background" format="reference" />
+        <attr name="focusable" format="boolean" />
+        <attr name="fromAlpha" format="float" />
+        <attr name="frameDuration" format="integer" />
+        <attr name="textString" format="string" />
+        <attr name="pivotX" format="fraction" />
+        <com.example.CustomView app:pivotX="30%" />
+
+        <attr name="orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="windowSoftInputMode">
+            <flag name="stateUnspecified" value="0" />
+            <flag name="stateUnchanged" value="1" />
+            <flag name="stateHidden" value="2" />
+            <flag name="stateAlwaysHidden" value="3" />
+            <flag name="stateVisible" value="4" />
+            <flag name="stateAlwaysVisible" value="5" />
+            <flag name="adjustUnspecified" value="0x00" />
+            <flag name="adjustResize" value="0x10" />
+            <flag name="adjustPan" value="0x20" />
+            <flag name="adjustNothing" value="0x30" />
+        </attr>
+        <com.example.CustomView app:windowSoftInputMode="stateUnspecified|stateUnchanged|stateHidden" />
+        -->
+    </declare-styleable>
+
+</resources>
