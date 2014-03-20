@@ -5,8 +5,8 @@
         <attr name="text" format="string" />
         <attr name="fontColor" format="color" />
         <attr name="fontSize" format="dimension" />
-        <!--
         <attr name="background" format="reference" />
+        <!--
         <attr name="focusable" format="boolean" />
         <attr name="fromAlpha" format="float" />
         <attr name="frameDuration" format="integer" />
