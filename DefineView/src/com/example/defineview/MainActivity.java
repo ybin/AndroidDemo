@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 public class MainActivity extends Activity {
 
 	private static final int VIEW_ID_BASE = 1;
-	private RelativeLayout mContainer;
+//	private RelativeLayout mContainer;
 	private Button[] mChileViews;
 
 	@Override
@@ -22,19 +22,22 @@ public class MainActivity extends Activity {
 	
 	private void autowrapLayout() {
 		mChileViews = new Button[10];
-		mContainer = (RelativeLayout) findViewById(R.id.main_relative_layout);
+		final RelativeLayout container =
+				(RelativeLayout) findViewById(R.id.main_relative_layout);
 		
 		for (int i = 0; i < mChileViews.length; i++) {
 			mChileViews[i] = new Button(this);
 			mChileViews[i].setId(VIEW_ID_BASE + i);
 			mChileViews[i].setText("" + i);
-			mContainer.addView(mChileViews[i]);
+			container.addView(mChileViews[i]);
 		}
 		
-		mContainer.post(new Runnable() {
+		container.post(new Runnable() {
 			@Override
 			public void run() {
-				reLayout(mContainer);
+				// 匿名内部类是不能使用local variable的，
+				// 但是final的local variable除外
+				reLayout(container);
 			}
 		});
 	}
