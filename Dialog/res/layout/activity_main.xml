@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/dialog_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showMyDialogs"
+        android:text="Dialog style 1" />
+
+    <Button
+        android:id="@+id/dialog_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_1"
+        android:onClick="showMyDialogs"
+        android:text="Dialog style 2" />
+
+    <Button
+        android:id="@+id/dialog_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_2"
+        android:onClick="showMyDialogs"
+        android:text="Dialog style 3" />
+
+    <Button
+        android:id="@+id/dialog_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_3"
+        android:onClick="showMyDialogs"
+        android:text="Dialog style 4" />
+
+    <Button
+        android:id="@+id/dialog_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_4"
+        android:onClick="showMyDialogs"
+        android:text="Dialog style 5" />
+
+</RelativeLayout>

@@ -10,6 +10,7 @@
     tools:context=".MainActivity" >
 
     <!-- 例子：使用RelativeLayout创建自动换行的布局 -->
+
     <RelativeLayout
         android:id="@+id/main_relative_layout"
         android:layout_width="match_parent"
@@ -27,8 +28,9 @@
         app:fontColor="@android:color/background_dark"
         app:fontSize="20dp"
         app:text="中华人民共和国哈哈哈哈哈哈哈哈哈哈啊哈哈" />
-    
+
     <!-- 例子：自定义TextView -->
+
     <com.example.defineview.CustomView
         android:id="@+id/custom_view"
         android:layout_width="wrap_content"
