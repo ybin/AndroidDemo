@@ -18,6 +18,12 @@
         android:layout_alignParentTop="true"
         android:background="@android:color/darker_gray" />
 
+    <!-- Canvas operations -->
+    <com.example.defineview.CanvasOperations
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/main_relative_layout" />
+
     <!-- 例子：自定义TextView -->
 
     <com.example.defineview.CustomView
