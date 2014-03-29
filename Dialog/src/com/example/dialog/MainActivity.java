@@ -126,6 +126,12 @@ public class MainActivity extends Activity {
 					}
 				})
 				.create();
+			
+			// cancel on touch outside
+			dialog.setCanceledOnTouchOutside(false);
+			// cancel on hit BACK key
+			dialog.setCancelable(false);
+			
 			dialog.show();
 			break;
 		}
