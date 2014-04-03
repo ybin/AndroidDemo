@@ -3,7 +3,11 @@ package com.example.screeninfo;
 import com.example.displayinfo.R;
 
 import android.os.Bundle;
+import android.os.IBinder;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -48,5 +52,14 @@ public class MainActivity extends Activity {
 	public void buttonOnClickListener(View v) {
 		Log.v(TAG, "bottom button clicked.");
 		fillDisplayInfo(mInfoAreaView);
+		//startComponent();
+	}
+	
+	private void startComponent() {
+		Intent intent;
+		intent = new Intent("cn.zte.music.musicservicecommand.exit");
+		intent.setComponent(
+				new ComponentName("cn.zte.music", "cn.zte.music.service.MediaPlaybackService"));
+		startService(intent);
 	}
 }

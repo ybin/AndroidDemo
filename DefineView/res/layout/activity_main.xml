@@ -19,7 +19,8 @@
         android:background="@android:color/darker_gray" />
 
     <!-- Canvas operations -->
-    <com.example.defineview.CanvasOperations
+
+    <com.example.defineview.CanvasOperations
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_below="@id/main_relative_layout" />
@@ -27,9 +28,9 @@
     <!-- 例子：自定义TextView -->
 
     <com.example.defineview.CustomView
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         app:background="@android:color/darker_gray"
         app:fontColor="@android:color/background_dark"
         app:fontSize="20dp"
@@ -37,14 +38,9 @@
 
     <!-- 例子：自定义TextView -->
 
-    <com.example.defineview.CustomView
-        android:id="@+id/custom_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:background="@android:color/darker_gray"
-        app:fontColor="@android:color/background_dark"
-        app:fontSize="20dp"
-        app:text="This is a customized view jjggMMMMM" />
+    <com.example.defineview.ClipRectDraw
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
