@@ -1,6 +1,7 @@
 package com.example.notificationdemo;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.app.Activity;
 import android.app.Notification;
@@ -23,15 +24,24 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Log.v(TAG, "onCreate::");
 
 		mNotificationManager =
 				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		
 		sendNormalNotification();
 		sendRemoteViewNotification();
+		finish();
 	}
 
 	private void sendNormalNotification() {
+		/*
+		 * PendingIntent里的intent是如何处理的呢？
+		 * 	如果PendingIntent是通过getService获取的，就startService(intent)
+		 * 	如果PendingIntent是通过getActivity获取的，就startActivity(intent)
+		 * 	如果PendingIntent是通过getBroadcast获取的，就sendBroadcast(intent)
+		 */
 		PendingIntent pIntent = PendingIntent.getActivity(this, 0,
 				new Intent(this, MainActivity.class),
 				PendingIntent.FLAG_CANCEL_CURRENT);
