@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class CustomView extends View {
+public class CustomTextView extends View {
 
 	private String mText;
 	private int mFontColor;
@@ -17,23 +17,23 @@ public class CustomView extends View {
 
 	private Paint mPaint;
 
-	public CustomView(Context context, AttributeSet attrs) {
+	public CustomTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomView);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomTextView);
 
 		try {
-			mText = a.getString(R.styleable.CustomView_text);
-			mFontColor = a.getColor(R.styleable.CustomView_fontColor, android.R.color.black);
+			mText = a.getString(R.styleable.CustomTextView_text);
+			mFontColor = a.getColor(R.styleable.CustomTextView_fontColor, android.R.color.black);
 			
-			int bgResId = a.getResourceId(R.styleable.CustomView_background, 0);
+			int bgResId = a.getResourceId(R.styleable.CustomTextView_background, 0);
 			System.out.println("bg id: " + bgResId);
 			if(bgResId != 0) {
 				mBackground = context.getResources().getDrawable(bgResId);
 				System.out.println("mBackground: " + mBackground);
 			}
 			// dimension in Pixels
-			mFontSize = a.getDimensionPixelOffset(R.styleable.CustomView_fontSize, 60);
+			mFontSize = a.getDimensionPixelOffset(R.styleable.CustomTextView_fontSize, 60);
 		} finally {
 			a.recycle();
 		}

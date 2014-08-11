@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
 		autowrapLayout();
 	}
 	
-	private void autowrapLayout() {
+	private void autowrapLayout() {/*
 		mChileViews = new Button[10];
 		final RelativeLayout container =
 				(RelativeLayout) findViewById(R.id.main_relative_layout);
@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 				reLayout(container);
 			}
 		});
-	}
+	*/}
 
 	private void reLayout(RelativeLayout container) {
 		int curLineTotalWidth = 0;

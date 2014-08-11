@@ -11,36 +11,44 @@
 
     <!-- 例子：使用RelativeLayout创建自动换行的布局 -->
 
-    <RelativeLayout
+    <!-- <RelativeLayout
         android:id="@+id/main_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/darker_gray" /> -->
 
     <!-- Canvas operations -->
 
-    <com.example.defineview.CanvasOperations
+    <!-- <com.example.defineview.CanvasOperations
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_below="@id/main_relative_layout" />
+        android:layout_below="@id/main_relative_layout" /> -->
 
     <!-- 例子：自定义TextView -->
 
-    <com.example.defineview.CustomView
+    <!-- <com.example.defineview.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:background="@android:color/darker_gray"
         app:fontColor="@android:color/background_dark"
         app:fontSize="20dp"
-        app:text="中华人民共和国哈哈哈哈哈哈哈哈哈哈啊哈哈" />
+        app:text="中华人民共和国哈哈哈哈哈哈哈哈哈哈啊哈哈" /> -->
 
     <!-- 例子：自定义TextView -->
 
-    <com.example.defineview.ClipRectDraw
+    <!-- <com.example.defineview.ClipRectDraw
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true" /> -->
+    
+    <com.example.defineview.XferModeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
 
 </RelativeLayout>
