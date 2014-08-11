@@ -10,11 +10,11 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * ---------------------------------------------------¾ØĞÎÇøÓò----------------------
- * --------------------------- canvas.clipRect(×óÉÏ½ÇxÖá×ø±ê, ×óÉÏ½ÇyÖá×ø±ê, ÓÒÏÂ½ÇxÖá×ø±ê,
- * ÓÒÏÂ½ÇyÖá×ø±ê, Region.Op.XOR); ×îºóÒ»¸ö²ÎÊıÓĞ¶à¸öÑ¡Ôñ·Ö±ğÊÇ£º //DIFFERENCEÊÇµÚÒ»´Î²»Í¬ÓÚµÚ¶ş´ÎµÄ²¿·ÖÏÔÊ¾³öÀ´
- * //REPLACEÊÇÏÔÊ¾µÚ¶ş´ÎµÄ //REVERSE_DIFFERENCE ÊÇµÚ¶ş´Î²»Í¬ÓÚµÚÒ»´ÎµÄ²¿·ÖÏÔÊ¾ //INTERSECT£º½»¼¯ÏÔÊ¾
- * //UNION£ºÈ«²¿ÏÔÊ¾ //XOR²¹¼¯£¬¾ÍÊÇÈ«¼¯µÄ¼õÈ¥½»¼¯Ê£Óà²¿·ÖÏÔÊ¾
+ * ---------------------------------------------------çŸ©å½¢åŒºåŸŸ----------------------
+ * --------------------------- canvas.clipRect(å·¦ä¸Šè§’xè½´åæ ‡, å·¦ä¸Šè§’yè½´åæ ‡, å³ä¸‹è§’xè½´åæ ‡,
+ * å³ä¸‹è§’yè½´åæ ‡, Region.Op.XOR); æœ€åä¸€ä¸ªå‚æ•°æœ‰å¤šä¸ªé€‰æ‹©åˆ†åˆ«æ˜¯ï¼š //DIFFERENCEæ˜¯ç¬¬ä¸€æ¬¡ä¸åŒäºç¬¬äºŒæ¬¡çš„éƒ¨åˆ†æ˜¾ç¤ºå‡ºæ¥
+ * //REPLACEæ˜¯æ˜¾ç¤ºç¬¬äºŒæ¬¡çš„ //REVERSE_DIFFERENCE æ˜¯ç¬¬äºŒæ¬¡ä¸åŒäºç¬¬ä¸€æ¬¡çš„éƒ¨åˆ†æ˜¾ç¤º //INTERSECTï¼šäº¤é›†æ˜¾ç¤º
+ * //UNIONï¼šå…¨éƒ¨æ˜¾ç¤º //XORè¡¥é›†ï¼Œå°±æ˜¯å…¨é›†çš„å‡å»äº¤é›†å‰©ä½™éƒ¨åˆ†æ˜¾ç¤º
  * 
  * @author emmet1988.iteye.com
  * 
@@ -59,43 +59,43 @@ public class ClipRectDraw extends View {
 		canvas.clipRect(0, 0, 50, 50, Region.Op.UNION);
 		canvas.drawColor(Color.BLUE);
 		
-		// ×óÉÏÍ¼
+		// å·¦ä¸Šå›¾
 		canvas.save();
 		canvas.translate(10, 10);
 		drawScene(canvas);
 		canvas.restore();
-		// ÓÒÉÏÍ¼
+		// å³ä¸Šå›¾
 		canvas.save();
 		canvas.translate(160, 10);
 		canvas.clipRect(10, 10, 90, 90);
 		canvas.clipRect(30, 30, 70, 70, Region.Op.XOR);
 		drawScene(canvas);
 		canvas.restore();
-		// ×óÖĞÍ¼
+		// å·¦ä¸­å›¾
 		canvas.save();
 		canvas.translate(10, 130);
 		path.reset();
-		/* Å×ÎïÇúÏß */
+		/* æŠ›ç‰©æ›²çº¿ */
 		path.cubicTo(0, 0, 100, 0, 100, 100);
 		path.cubicTo(100, 100, 0, 100, 0, 0);
 		canvas.clipPath(path, Region.Op.REPLACE);
 		drawScene(canvas);
 		canvas.restore();
-		// ÓÒÖĞÍ¼
+		// å³ä¸­å›¾
 		canvas.save();
 		canvas.translate(160, 130);
 		canvas.clipRect(0, 0, 60, 60);
 		canvas.clipRect(40, 40, 100, 100, Region.Op.UNION);
 		drawScene(canvas);
 		canvas.restore();
-		// ×óÏÂÍ¼
+		// å·¦ä¸‹å›¾
 		canvas.save();
 		canvas.translate(10, 250);
 		canvas.clipRect(0, 0, 60, 60);
 		canvas.clipRect(40, 40, 100, 100, Region.Op.XOR);
 		drawScene(canvas);
 		canvas.restore();
-		// ÓÒÏÂÍ¼
+		// å³ä¸‹å›¾
 		canvas.translate(160, 250);
 		canvas.clipRect(0, 0, 60, 60);
 		canvas.clipRect(40, 40, 100, 100, Region.Op.REVERSE_DIFFERENCE);

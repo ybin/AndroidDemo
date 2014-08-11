@@ -26,12 +26,12 @@ public class CanvasOperations extends View {
 		Log.v(TAG, "canvas size: " + canvas.getWidth() + "," + canvas.getHeight());
 	
 		/*
-		 * ½¨Òé£º
-		 * 		·²ÊÇÉæ¼°µ½'ÎïÌå'±¾ÉíµÄ²Ù×÷(Ğı×ª¡¢Ëõ·Å¡¢ÇãĞ±)£¬¶¼ÒªÊ×ÏÈÍê³É¸Ã²Ù×÷£¬
-		 * 		È»ºóÔÙÆ½ÒÆ¡£
-		 * ÈçĞı×ª¡¢Æ½ÒÆ×éºÏ£¬Ëõ·Å¡¢Æ½ÒÆ×éºÏ£¬ÇãĞ±¡¢Æ½ÒÆ×éºÏ£¬ÒòÎªĞı×ª¡¢Ëõ·Å¡¢ÇãĞ±
-		 * ²Ù×÷¶¼ÊÇÒÔ(0,0)Îª'²»¶¯µã'£¬Èç¹ûÏÈ½øĞĞÆ½ÒÆ£¬ÄÇÕâĞ©ºóĞøµÄ²Ù×÷¾Í»áÓ°ÏìÆ½ÒÆ
-		 * µÄĞ§¹û¡£
+		 * å»ºè®®ï¼š
+		 * 		å‡¡æ˜¯æ¶‰åŠåˆ°'ç‰©ä½“'æœ¬èº«çš„æ“ä½œ(æ—‹è½¬ã€ç¼©æ”¾ã€å€¾æ–œ)ï¼Œéƒ½è¦é¦–å…ˆå®Œæˆè¯¥æ“ä½œï¼Œ
+		 * 		ç„¶åå†å¹³ç§»ã€‚
+		 * å¦‚æ—‹è½¬ã€å¹³ç§»ç»„åˆï¼Œç¼©æ”¾ã€å¹³ç§»ç»„åˆï¼Œå€¾æ–œã€å¹³ç§»ç»„åˆï¼Œå› ä¸ºæ—‹è½¬ã€ç¼©æ”¾ã€å€¾æ–œ
+		 * æ“ä½œéƒ½æ˜¯ä»¥(0,0)ä¸º'ä¸åŠ¨ç‚¹'ï¼Œå¦‚æœå…ˆè¿›è¡Œå¹³ç§»ï¼Œé‚£è¿™äº›åç»­çš„æ“ä½œå°±ä¼šå½±å“å¹³ç§»
+		 * çš„æ•ˆæœã€‚
 		 */
 		operationWithCanvs(canvas, getResources().getDrawable(R.drawable.ic_launcher));
 //		operationWithMatrix(canvas);
@@ -69,9 +69,9 @@ public class CanvasOperations extends View {
 		// scale
 		canvas.save();
 		matrix.reset();
-		// ·Å´óÁ½±¶
+		// æ”¾å¤§ä¸¤å€
 		matrix.setScale(2, 2);
-		// Æ½ÒÆ£¬¾ØÕó×ó³Ë
+		// å¹³ç§»ï¼ŒçŸ©é˜µå·¦ä¹˜
 		matrix.postTranslate(bmWidth, bmHeight);
 		canvas.drawBitmap(bitmap, matrix, null);
 		canvas.restore();
@@ -86,9 +86,9 @@ public class CanvasOperations extends View {
 	}
 	
 	/*
-	 * CanvasÖĞµÄrotate, scale, skew, translate¶¼ÊÇpre-XXXXµÄ£¬¼´¾ØÕóÓÒ³Ë£¬
-	 * ËùÒÔ×ñÑ­ÏÈ²Ù×÷ºóÒÆ¶¯µÄÔ­ÔòÊ±£¬ÒªÏÈµ÷ÓÃCanvasµÄrotate(), scale(), skew()£¬
-	 * ÔÙµ÷ÓÃtranslate()£¬Ë³ĞòºÜÖØÒª¡£
+	 * Canvasä¸­çš„rotate, scale, skew, translateéƒ½æ˜¯pre-XXXXçš„ï¼Œå³çŸ©é˜µå³ä¹˜ï¼Œ
+	 * æ‰€ä»¥éµå¾ªå…ˆæ“ä½œåç§»åŠ¨çš„åŸåˆ™æ—¶ï¼Œè¦å…ˆè°ƒç”¨Canvasçš„rotate(), scale(), skew()ï¼Œ
+	 * å†è°ƒç”¨translate()ï¼Œé¡ºåºå¾ˆé‡è¦ã€‚
 	 */
 	private void operationWithCanvs(Canvas canvas, Drawable image) {
 		int intrinsicWidth = image.getIntrinsicWidth();
@@ -119,7 +119,7 @@ public class CanvasOperations extends View {
 		// scale
 		canvas.save();
 		canvas.translate(intrinsicWidth, intrinsicHeight);
-		// ²ÎÊıÎªscaleµÄ±¶Êı
+		// å‚æ•°ä¸ºscaleçš„å€æ•°
 		canvas.scale(2, 2);
 		image.draw(canvas);
 		canvas.restore();
@@ -127,7 +127,7 @@ public class CanvasOperations extends View {
 		// skew
 		canvas.save();
 		canvas.translate(0, 2*intrinsicHeight);
-		// ²ÎÊıÎªÇãĞ±½Ç¶ÈµÄtangentÖµ
+		// å‚æ•°ä¸ºå€¾æ–œè§’åº¦çš„tangentå€¼
 		canvas.skew((float)Math.tan(10*Math.PI/180), 0);
 		image.draw(canvas);
 		canvas.restore();

@@ -38,7 +38,7 @@ public class CustomTextView extends View {
 			a.recycle();
 		}
 		mPaint = new Paint();
-		// setTextSize()º¯ÊıĞèÒªÒÔPixelsÎªµ¥Î»µÄ²ÎÊı
+		// setTextSize()å‡½æ•°éœ€è¦ä»¥Pixelsä¸ºå•ä½çš„å‚æ•°
 		// mPaint.setTextSize(16 * getResources().getDisplayMetrics().density);
 		mPaint.setTextSize(mFontSize);
 		mPaint.setColor(mFontColor);
@@ -61,15 +61,15 @@ public class CustomTextView extends View {
 			mBackground.setBounds(0, 0, getWidth(), getHeight());
 			mBackground.draw(canvas);
 		}
-		// ×ÖÌåµÄ×İÏòÔ­µãÊÇÆäbaseline£¬¶ø²»ÊÇ×óÉÏ½Ç
-		// ²»¿¼ÂÇ×Ô¶¯»»ĞĞµÄÇé¿ö
+		// å­—ä½“çš„çºµå‘åŸç‚¹æ˜¯å…¶baselineï¼Œè€Œä¸æ˜¯å·¦ä¸Šè§’
+		// ä¸è€ƒè™‘è‡ªåŠ¨æ¢è¡Œçš„æƒ…å†µ
 		//canvas.drawText(mText, 0, -mPaint.ascent(), mPaint);
 		
-		// ¿¼ÂÇ×Ô¶¯»»ĞĞµÄÇé¿ö
+		// è€ƒè™‘è‡ªåŠ¨æ¢è¡Œçš„æƒ…å†µ
 		drawText(canvas);
 	}
 	
-	// Ò»ĞĞÒ»ĞĞµÄ»æÖÆÎÄ±¾£¬×¢Òâ£ºÃ»ÓĞ¿¼ÂÇÎÄ±¾ÖĞ´æÔÚ»»ĞĞ·ûµÄÇé¿ö
+	// ä¸€è¡Œä¸€è¡Œçš„ç»˜åˆ¶æ–‡æœ¬ï¼Œæ³¨æ„ï¼šæ²¡æœ‰è€ƒè™‘æ–‡æœ¬ä¸­å­˜åœ¨æ¢è¡Œç¬¦çš„æƒ…å†µ
 	private void drawText(Canvas canvas) {
 		int start = 0;
 		int end;
@@ -134,10 +134,10 @@ public class CustomTextView extends View {
 	private int countLines(int contentWidth, int lineWidth) {
 		int count = 0;
 		
-		// ÕâÖÖ¼ÆËã·½·¨»á´æÔÚÎó²î£¬ÒòÎªÃ»ÓĞ¿¼ÂÇĞĞÎ²µÄÊ£Óà¿Õ¼äÎŞ·¨·ÅÏÂÒ»¸ö×Ö·ûµÄÇé¿ö
+		// è¿™ç§è®¡ç®—æ–¹æ³•ä¼šå­˜åœ¨è¯¯å·®ï¼Œå› ä¸ºæ²¡æœ‰è€ƒè™‘è¡Œå°¾çš„å‰©ä½™ç©ºé—´æ— æ³•æ”¾ä¸‹ä¸€ä¸ªå­—ç¬¦çš„æƒ…å†µ
 		//count = (contentWidth + lineWidth - 1) / lineWidth;
 		
-		// ¿¼ÂÇµ½ĞĞÎ²µÄÊ£Óà¿Õ¼äÎŞ·¨·ÅÏÂÒ»¸ö×Ö·ûµÄÇé¿ö
+		// è€ƒè™‘åˆ°è¡Œå°¾çš„å‰©ä½™ç©ºé—´æ— æ³•æ”¾ä¸‹ä¸€ä¸ªå­—ç¬¦çš„æƒ…å†µ
 		int start = 0;
 		int end;
 		while((end = findEndIndex(start, lineWidth)) != -1) {
@@ -148,8 +148,8 @@ public class CustomTextView extends View {
 	}
 	
 	/*
-	 *  ÕâÖÖ·½·¨Ğ§ÂÊ±È½ÏµÍ£¬ĞèÒªÓÅ»¯£¬±ÈÈç¿ÉÒÔ´«ÈëÉÏÒ»ĞĞµÄ×Ö·û¸öÊı
-	 *  ×÷Îª²Î¿¼Öµ£¬È»ºóendµÄÖµ¸ù¾İÊµ¼ÊÇé¿öÔö¼Ó»òÕß¼õÉÙ¡£
+	 *  è¿™ç§æ–¹æ³•æ•ˆç‡æ¯”è¾ƒä½ï¼Œéœ€è¦ä¼˜åŒ–ï¼Œæ¯”å¦‚å¯ä»¥ä¼ å…¥ä¸Šä¸€è¡Œçš„å­—ç¬¦ä¸ªæ•°
+	 *  ä½œä¸ºå‚è€ƒå€¼ï¼Œç„¶åendçš„å€¼æ ¹æ®å®é™…æƒ…å†µå¢åŠ æˆ–è€…å‡å°‘ã€‚
 	 */
 	private int findEndIndex(int start, int lineWidth) {
 		int end = start;

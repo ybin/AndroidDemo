@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		// Ê¹ÓÃRelativeLayout´´½¨×Ô¶¯»»ĞĞµÄ²¼¾Ö
+		// ä½¿ç”¨RelativeLayoutåˆ›å»ºè‡ªåŠ¨æ¢è¡Œçš„å¸ƒå±€
 		autowrapLayout();
 	}
 	
@@ -35,8 +35,8 @@ public class MainActivity extends Activity {
 		container.post(new Runnable() {
 			@Override
 			public void run() {
-				// ÄäÃûÄÚ²¿ÀàÊÇ²»ÄÜÊ¹ÓÃlocal variableµÄ£¬
-				// µ«ÊÇfinalµÄlocal variable³ıÍâ
+				// åŒ¿åå†…éƒ¨ç±»æ˜¯ä¸èƒ½ä½¿ç”¨local variableçš„ï¼Œ
+				// ä½†æ˜¯finalçš„local variableé™¤å¤–
 				reLayout(container);
 			}
 		});
@@ -59,19 +59,19 @@ public class MainActivity extends Activity {
 			currentViewWidth = mChileViews[i].getMeasuredWidth();
 			
 			if (i == 0) {
-				// µÚÒ»¸öview£¬Ö»ÊÇ×ÔÈ»·ÅÖÃ¾ÍºÃÁË
+				// ç¬¬ä¸€ä¸ªviewï¼Œåªæ˜¯è‡ªç„¶æ”¾ç½®å°±å¥½äº†
 				curLineTotalWidth += currentViewWidth;
 				
 			} else {
 				if (curLineTotalWidth + currentViewWidth > containerWidth) {
-					// ¿ªÊ¼ĞÂĞĞ
+					// å¼€å§‹æ–°è¡Œ
 					lp.addRule(RelativeLayout.BELOW, lineHeadButton.getId());
 					lineHeadButton = mChileViews[i];
 					curLineTotalWidth = currentViewWidth;
 				} else {
-					// ÎŞĞè»»ĞĞ
+					// æ— éœ€æ¢è¡Œ
 					lp.addRule(RelativeLayout.RIGHT_OF, mChileViews[i-1].getId());
-					// ±ØĞëÉèÖÃbaseline
+					// å¿…é¡»è®¾ç½®baseline
 					lp.addRule(RelativeLayout.ALIGN_BASELINE, mChileViews[i-1].getId());
 					curLineTotalWidth += currentViewWidth;
 				}
