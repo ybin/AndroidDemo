@@ -2,6 +2,7 @@
 **/bin/*
 **/gen/*
 **/libs/*
+**/obj/
 **/proguard/*
 **/*.classpath
 **/*.project
