@@ -6,7 +6,7 @@ import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 
-public class CalcNative extends Binder implements ICalc {
+public abstract class CalcNative extends Binder implements ICalc {
     // 工具方法，应该放到单独的工具类里面，
     // 该方法只是做一个转换，与binder没有实质性的关联
     public static ICalc asInterface(IBinder obj) {
@@ -41,10 +41,5 @@ public class CalcNative extends Binder implements ICalc {
         }
         }
         return super.onTransact(code, data, reply, flags);
-    }
-
-    @Override
-    public int add(int a, int b) {
-        return a + b;
     }
 }
