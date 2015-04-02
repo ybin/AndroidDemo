@@ -17,11 +17,17 @@
 
 # 使用方法
 
-1. 使用NDK编译之后生成名为`calc`的可执行文件，
+1. 使用NDK编译之后生成名为`calc`的可执行文件
 2. `adb push calc  /system/bin`
 3. `adb shell chomd 755 /system/bin/calc`
+4. `adb shell calc`，启动service
+5. `adb shell calc <随便加一个参数>`，启动一个client
+6. `adb logcat -v time binder_calc:* *:S`，查看logcat输出
+
+代码逻辑以及native binder的详细介绍，请移步我的个人博客文章：[理解binder: native部分][native_binder]
 
 
 
 [demo1]: https://github.com/gburca/BinderDemo
 [demo2]: https://github.com/qianjigui/android_system_service_example
+[native_binder]: http://ybin.gitcafe.com
