@@ -14,6 +14,6 @@ LOCAL_SRC_FILES := src/CalcClient.cpp \
 
 LOCAL_C_INCLUDES += jni/deps/include
 LOCAL_C_INCLUDES += jni/include
-LOCAL_LDLIBS += -Ljni/deps/libs -llog -lutils -lbinder
+LOCAL_LDLIBS += -Ljni/deps/libs_ -llog -lutils -lbinder
 
 include $(BUILD_EXECUTABLE)

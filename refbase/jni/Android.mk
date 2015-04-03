@@ -10,7 +10,7 @@ LOCAL_SRC_FILES := src/RefBase.cpp \
 #LOCAL_SHARED_LIBRARIES := libutils libbinder liblog
 
 LOCAL_C_INCLUDES += jni/include
-LOCAL_LDLIBS += -Ljni/libs -lcutils -llog
+LOCAL_LDLIBS += -Ljni/libs_ -lcutils -llog
 
 #include $(BUILD_EXECUTABLE)
 include $(BUILD_SHARED_LIBRARY)
