@@ -3,7 +3,6 @@
 skinparam defaultFontName "Consolas"
 scale 1.5
 
-/' RefBase '/
 class **RefBase** {
     - weakref_impl* const **mRefs**;
     ===
@@ -12,7 +11,7 @@ class **RefBase** {
     +void           **forceIncStrong**(const void* id) const;
     +weakref_type*  **createWeak**(const void* id) const;
     +weakref_type*  **getWeakRefs**() const;
-    +void           **extendObjectLifetime**(int32_t mode);
+    #void           **extendObjectLifetime**(int32_t mode);
     ---
     +int32_t        getStrongCount() const; // debug only
     ---
@@ -37,6 +36,11 @@ class RefBase::**weakref_impl** {
     ---
     +int32_t   getWeakCount() const; // debug only
 }
+@enduml
+
+@startuml sp-wp-diagram.png
+skinparam defaultFontName "Consolas"
+scale 1.5
 
 class **sp** {
     - T* **m_ptr**;
@@ -67,3 +71,81 @@ class **wp** {
 }
 @enduml
 ```
+
+```dot
+@startuml decWeak-diagram.png
+scale 1.5
+skinparam defaultFontName "Consolas"
+title android::RefBase::weakref_type::decWeak()
+
+start
+#YellowGreen:dec weakref counter;
+if (weakref counter == 0 ?) then (yes)
+    if (strong lifetime ?) then (yes)
+        if (never create strongref ?) then (yes)
+            #YellowGreen:delete base object;
+        else (no)
+            #YellowGreen:delete counter object(impl);
+        endif
+    else (no)
+        #YellowGreen:mBase->onLastWeakRef();
+        if (weak lifetime ?) then (yes)
+            #YellowGreen:delete base object;
+        else (no)
+        endif
+    endif
+else (no)
+endif
+end
+@enduml
+
+
+@startuml attemptIncStrong-diagram.png
+scale 1.5
+skinparam defaultFontName "Consolas"
+title android::RefBase::weakref_type::attemptIncStrong()
+
+start
+#YellowGreen:incWeak();
+if (exists other live strong ref ?) then (yes)
+    #YellowGreen:inc strongref counter;
+    #YellowGreen:ret = true;
+else (no)
+    if ((strongref count == initial value && strong lifetime) ||\n\
+(strongref count == initial value && implementation allowed) ||\n\
+(strongref count <= 0 && weak lifetime && implementation allowed)) then (yes)
+        #YellowGreen:inc strongref counter;
+        #YellowGreen:ret = true;
+    else (no)
+        #YellowGreen:dec weakref counter;
+        #YellowGreen:ret = false;
+    endif
+endif
+#YellowGreen:return ret;
+end
+@enduml
+```
+
+TextAppearanceSpan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
