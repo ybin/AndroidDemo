@@ -1,5 +1,6 @@
 #include "Util.h"
 #include "CalcClient.h"
+#include <binder/TextOutput.h>
 
 using namespace android;
 
@@ -9,6 +10,7 @@ int32_t BpCalc::add(int32_t a, int32_t b) {
     data.writeInterfaceToken(ICalc::getInterfaceDescriptor());
     data.writeInt32(a);
     data.writeInt32(b);
+    INFO("xxxxxxxxxx %d xxxxxxxxxxx", data.ipcDataSize());
     INFO("BpCalc::add(%i, %i), before transact", a, b);
     remote()->transact(CALC_ADD, data, &reply);
     status_t status = reply.readInt32(&ret);

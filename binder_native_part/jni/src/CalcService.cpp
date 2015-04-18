@@ -6,6 +6,8 @@ using namespace android;
 status_t BnCalc::onTransact(uint32_t code, const Parcel& data, Parcel* reply, uint32_t flags) {
     INFO("BnCalc::onTransact, code=%i, flags=%i", code, flags);
     data.checkInterface(this);
+    INFO("calc service strong refs: %d", getStrongCount());
+    INFO("calc service weak refs: %d", getWeakRefs()->getWeakCount());
     
     switch(code) {
         case CALC_ADD: {
