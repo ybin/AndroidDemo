@@ -1,0 +1,35 @@
+digraph G {
+    rankdir=BT;
+    nodesep=.5
+    node [shape=rectangle, fontname=Consolas, color=deeppink4,
+          style=filled, fillcolor=lightyellow, penwidth=1.5];
+    edge [arrowhead=onormal];
+    
+    
+    
+    { rank = same; IBinder; IInterface; }
+    { rank = same; BpRefBase; BBinder; BpBinder }
+    { rank = same; "BpInterface<INTERFACE>"; "BnInterface<INTERFACE>"; }
+    { rank = same; BpXXX; BnXXX; }
+    
+    "BpInterface<INTERFACE>" -> BpRefBase -> RefBase;
+    "BpInterface<INTERFACE>" -> INTERFACE -> IInterface -> RefBase;
+    "BnInterface<INTERFACE>" -> BBinder -> IBinder -> RefBase;
+    "BnInterface<INTERFACE>" -> INTERFACE;
+    BpBinder -> IBinder;
+    BpXXX -> "BpInterface<INTERFACE>";
+    BnXXX -> "BnInterface<INTERFACE>";
+    //BpRefBase -> INTERFACE[style=invis];
+    
+    // group attr of node for vertical alignment
+    RefBase[group=g0];
+    IInterface[group=g0];
+    INTERFACE [fillcolor=yellowgreen, group=g0];
+    BpRefBase[group=g1];
+    "BpInterface<INTERFACE>"[group=g1];
+    BpXXX [fillcolor=yellowgreen, group=g1];
+    IBinder[group=g2];
+    BBinder[group=g2];
+    "BnInterface<INTERFACE>"[group=g2];
+    BnXXX [fillcolor=yellowgreen, group=g2];
+}

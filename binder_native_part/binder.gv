@@ -1,0 +1,50 @@
+digraph G {
+    rankdir=LR;
+    nodesep=.5;
+    node [shape=record];
+    compound=true;
+
+    binder_wr [label="<write_size>signed long write_size
+                      | <write_consumed>signed long write_consumed
+                      | <write_buffer>unsigned long write_buffer
+                      | <read_size>signed long read_size
+                      | <read_consumed>signed long read_consumed
+                      | <read_buffer>unsigned long read_buffer"];
+             
+    binder_transaction_data_w [label="{<target>target | {handle | ptr}} | void* cookie
+                                    | unsigned int code
+                                    | unsigned int flags
+                                    | pid_t sender_pid
+                                    | uid_t sender_uid
+                                    | size_t data_size
+                                    | size_t offset_size | {buf[8] | {<buf_p>buffer | <off_p>offsets}}"];
+                                    
+    binder_transaction_data_r [label="{<target>target | {handle | ptr}} | void* cookie
+                                    | unsigned int code
+                                    | unsigned int flags
+                                    | pid_t sender_pid
+                                    | uid_t sender_uid
+                                    | size_t data_size
+                                    | size_t offset_size
+                                    | size_t offset_size | {buf[8] | {buffer | offsets}}"];
+                                    
+    offsets [style=filled label="<f0>offset 0 | <f1>offset 1 | ... | offset N"];
+    
+    // sub graph
+    subgraph cluster_flat_objs_1 {
+        style=filled
+        color=lightgrey
+        other_data [label="other data | ..."];
+        flat_binder_object_1 [label="<type>unsigned long type
+                                     | unsigned long flags | { binder | handle } | void *cookie"];
+        flat_binder_object_2 [label="<type>unsigned long type
+                                     | unsigned long flags | { binder | handle } | void *cookie"];
+    }
+    
+    binder_wr:write_buffer -> binder_transaction_data_w:target:nw;
+    binder_wr:read_buffer -> binder_transaction_data_r:target:nw;
+    binder_transaction_data_w:buf_p -> other_data [ltail=cluster_flat_objs_1];
+    binder_transaction_data_w:off_p -> offsets:f0:nw;
+    offsets:f0 -> flat_binder_object_1:type:nw;
+    offsets:f1 -> flat_binder_object_2:type:nw;
+}
