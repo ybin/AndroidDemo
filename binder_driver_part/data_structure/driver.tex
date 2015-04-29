@@ -1,0 +1,109 @@
+﻿\documentclass{standalone}
+%\usepackage{pdfpages}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+
+\begin{document}
+
+% definition of 'struct binder_write_read'
+\newcommand{\bwr}[3]{%
+  \matrix (#1) at (#2, #3) [table,text width=5cm,
+      label={[align=center]90:{\textcolor{red}{struct} \textcolor{blue}{\bf binder\_write\_read}}}]
+  {%
+    ||{signed long \textcolor{blue}{\bf write\_size}}\\
+    ||{signed long \textcolor{blue}{\bf write\_consumed}}\\
+    ||{unsigned long \textcolor{blue}{\bf write\_buffer}}\\
+    ||{signed long \textcolor{blue}{\bf read\_size}}\\
+    ||{signed long \textcolor{blue}{\bf read\_consumed}}\\
+    ||{unsigned long \textcolor{blue}{\bf read\_buffer}}\\
+  };
+}
+
+% definition of 'struct binder_transaction_data'
+\newcommand{\btd}[3]{%
+  \matrix (#1) at (#2, #3) [table, text width=4.5cm,
+      label={[align=center]90:{\textcolor{red}{struct} \textcolor{blue}{\bf binder\_transaction\_data}}}]
+  {%
+    ||{size\_t \textcolor{blue}{\bf handle} $|$ void * \textcolor{blue}{\bf ptr}}\\
+    ||{void * \textcolor{blue}{\bf cookie}}\\
+    ||{unsigned int \textcolor{blue}{\bf code}}\\
+    ||{unsigned int \textcolor{blue}{\bf flags}}\\
+    ||{pid\_t \textcolor{blue}{\bf sender\_pid}}\\
+    ||{uid\_t \textcolor{blue}{\bf sender\_uid}}\\
+    ||{size\_t \textcolor{blue}{\bf data\_size}}\\
+    ||{size\_t \textcolor{blue}{\bf offset\_size}}\\
+    ||{void * \textcolor{blue}{\bf buffer}}\\
+    ||{void * \textcolor{blue}{\bf offsets}}\\
+  };
+}
+
+% definition of 'struct binder_proc'
+\newcommand{\proc}[3]{%
+  \matrix (#1) at (#2, #3) [table, text width=6.5cm,
+      label={[align=center]90:{\textcolor{red}{struct} \textcolor{blue}{\bf binder\_proc}}}]
+  {%
+    ||{struct hlist\_node \textcolor{blue}{\bf proc\_node}}\\
+    ||{struct rb\_root \textcolor{blue}{\bf threads}}\\
+    ||{struct rb\_root \textcolor{blue}{\bf nodes}}\\
+    ||{struct rb\_root \textcolor{blue}{\bf refs\_by\_desc}}\\
+    ||{struct rb\_root \textcolor{blue}{\bf refs\_by\_node}}\\
+    ||{int \textcolor{blue}{\bf pid}}\\
+    ||{struct vm\_area\_struct * \textcolor{blue}{\bf vma}}\\
+    ||{struct mm\_struct * \textcolor{blue}{\bf vma\_vm\_mm}}\\
+    ||{struct task\_struct * \textcolor{blue}{\bf tsk}}\\
+    ||{struct files\_struct * \textcolor{blue}{\bf files}}\\
+    ||{struct hlist\_node \textcolor{blue}{\bf deferred\_work\_node}}\\
+    ||{int \textcolor{blue}{\bf deferred\_work}}\\
+    ||{void * \textcolor{blue}{\bf buffer}}\\
+    ||{ptrdiff\_t\textcolor{blue}{\bf user\_buffer\_offset}}\\
+    ||{struct list\_head \textcolor{blue}{\bf buffers}}\\
+    ||{struct rb\_root \textcolor{blue}{\bf free\_buffers}}\\
+    ||{struct rb\_root \textcolor{blue}{\bf allocated\_buffers}}\\
+    ||{size\_t \textcolor{blue}{\bf free\_async\_space}}\\
+    ||{struct page ** \textcolor{blue}{\bf pages}}\\
+    ||{size\_t \textcolor{blue}{\bf buffer\_size}}\\
+    ||{uint32\_t \textcolor{blue}{\bf buffer\_free}}\\
+    ||{struct list\_head \textcolor{blue}{\bf todo}}\\
+    ||{wait\_queue\_head\_t \textcolor{blue}{\bf wait}}\\
+    ||{struct binder\_stats \textcolor{blue}{\bf stats}}\\
+    ||{struct list\_head \textcolor{blue}{\bf delivered\_death}}\\
+    ||{int \textcolor{blue}{\bf max\_threads}}\\
+    ||{int \textcolor{blue}{\bf requested\_threads}}\\
+    ||{int \textcolor{blue}{\bf requested\_threads\_started}}\\
+    ||{int \textcolor{blue}{\bf ready\_threads}}\\
+    ||{long \textcolor{blue}{\bf default\_priority}}\\
+    ||{struct dentry* \textcolor{blue}{\bf debugfs\_entry}}\\
+  };
+}
+
+\begin{tikzpicture}
+  % style definition
+  [table/.style={
+      draw,
+      inner sep=0pt,
+      matrix of nodes,
+      nodes in empty cells,
+      nodes={
+        draw,
+        scale=0.75,
+        align=center,
+        outer sep=0pt,
+        inner sep=.1cm,
+      }
+   }]
+
+\bwr{bwr}{0cm}{0cm}
+\btd{btd}{6cm}{0cm}
+\proc{proc}{12cm}{0cm}
+
+
+\end{tikzpicture}
+
+
+%\newcommand{新命令}[参数数量][默认值]{定义内容}
+%新命令符合命令构成规则，不能与系统和已调用宏包命令重名。
+%参数数量：可选，用于指定该命令具有参数个数，默认为0，即无参数。
+%默认值：可选，用于设定第一个参数的默认值，如果定义时给出默认值，表面命令第一个参数可选，新命令最多只能有一个可选参数，而且必须是第一个参数。
+%命令内容：涉及某个参数时用符号#n表示，如#1  #2
+%新定义命令参数不得含有抄录命令\verb 和抄录环境verbatim以及相关命令和环境。
+\end{document}
