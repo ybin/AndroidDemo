@@ -1,0 +1,1 @@
+java -cp %~dp0\build\classes\main -agentpath:%~dp0\build\binaries\agentSharedLibrary\agent.dll=opt1=1,opt2=2 com.example.jvmti.Test

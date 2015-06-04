@@ -1,0 +1,33 @@
+apply plugin: 'c'
+apply plugin: 'cpp'
+
+model {
+    components {
+        jnidemo(NativeLibrarySpec) {
+            sources {
+                cpp {
+                    source {
+                        srcDir "src/jnidemo/cpp"
+                    }
+                    exportedHeaders {
+                        srcDir "src/jnidemo/headers"
+                    }
+                }
+            }
+        }
+        
+        jnidemotest(NativeExecutableSpec) {
+            sources {
+                c {
+                    lib library: "jnidemo"
+                    source {
+                        srcDir "src/jnidemotest/c"
+                    }
+                    exportedHeaders {
+                        srcDir "src/jnidemo/headers"
+                    }
+                }
+            }
+        }
+    }
+}
