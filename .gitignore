@@ -8,3 +8,6 @@
 **/*.project
 **/.settings/*
 **/*.mp4
+
+**/build/*
+**/.gradle/*

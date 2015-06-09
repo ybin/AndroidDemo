@@ -1,0 +1,46 @@
+apply plugin: 'cpp'
+apply plugin: 'application'
+
+// jni part
+model {
+    components {
+        hello_legacy(NativeLibrarySpec) {
+            sources {
+                cpp {
+                    source {
+                        srcDir "src/hello_legacy/cpp"
+                    }
+                    exportedHeaders {
+                        srcDir "src/hello_legacy/headers"
+                        srcDir "C:/Program Files/Java/jdk1.8.0_25/include"
+                        srcDir "C:/Program Files/Java/jdk1.8.0_25/include/win32"
+                    }
+                }
+            }
+        }
+        hello(NativeLibrarySpec) {
+            sources {
+                cpp {
+                    source {
+                        srcDir "src/hello/cpp"
+                    }
+                    exportedHeaders {
+                        srcDir "C:/Program Files/Java/jdk1.8.0_25/include"
+                        srcDir "C:/Program Files/Java/jdk1.8.0_25/include/win32"
+                    }
+                }
+            }
+        }
+    }
+}
+
+// java part
+mainClassName = "com.example.jni.Hello"
+applicationDefaultJvmArgs = ["-Djava.library.path=$projectDir.absolutePath\\build\\binaries\\helloSharedLibrary;$projectDir.absolutePath\\build\\binaries\\hello_legacySharedLibrary"]
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java'
+        }
+    }
+}
