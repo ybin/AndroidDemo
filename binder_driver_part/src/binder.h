@@ -45,6 +45,8 @@ enum {
  * contains offsets into the data where these structures occur.  The Binder
  * driver takes care of re-writing the structure type and data as it moves
  * between processes.
+ *
+ * binder对象的引用，如函数调用时的参数，它只是一个引用，并非实体。
  */
 struct flat_binder_object {
 	/* 8 bytes for large_flat_header. */
@@ -67,6 +69,7 @@ struct flat_binder_object {
  */
 // xxx_size - xxx_consumed = 待处理的数据，数据存储在xxx_buffer中。
 // 大小是固定的，总共才4*6=24个bytes
+// ioctrl操作时使用的数据包
 struct binder_write_read {
 	signed long	write_size;	/* bytes to write */
 	signed long	write_consumed;	/* bytes consumed by driver */
@@ -117,6 +120,9 @@ enum transaction_flags {
 };
 
 // 大小是固定的，总共才4*10=40个bytes
+// 业务相关的数据描述，如一个函数调用就会用到一个这样的包，其中的code即为
+// 操作码(如service mgr里的CHECK_SERVICE)，binder本身不关注这些内容，应用
+// 才会关注这些。
 struct binder_transaction_data {
 	/* The first two are only used for bcTRANSACTION and brTRANSACTION,
 	 * identifying the target and contents of the transaction.

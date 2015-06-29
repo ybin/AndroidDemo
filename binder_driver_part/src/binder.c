@@ -203,6 +203,14 @@ static struct binder_transaction_log_entry *binder_transaction_log_add(
 	return e;
 }
 
+
+
+
+
+
+
+
+
 // work用于proc->todo或者thread->todo，即构成进程或者线程的todo list，
 // binder_work一般作为更大的结构体(如binder_thread, binder_node)的一个字段
 struct binder_work {
@@ -265,6 +273,7 @@ struct binder_ref {
 	
 	uint32_t desc; /* rb_node_desc排序使用该值，rb tree判断左子树还是又子树的依据
 				       rb_node_node排序是的是binder_node的内存地址，所以无需额外的值
+				       desc，其实就是user space里的handle.
 				    */
 	int strong;
 	int weak;
@@ -308,7 +317,7 @@ struct binder_proc {
 	struct files_struct *files; // 进程打开的文件
 	struct hlist_node deferred_work_node;
 	int deferred_work;
-	void *buffer; // 进程拥有的内存
+	void *buffer; // 进程拥有的内核虚拟内存
 	ptrdiff_t user_buffer_offset; // buffer在user space和kernel space之间的偏移量
 
 	// 管理buffer的相关数据结构
@@ -317,6 +326,17 @@ struct binder_proc {
 	struct rb_root allocated_buffers; // 所有allocated buffer组成的集合
 	size_t free_async_space;
 
+	/*
+	  关于二级指针:
+	  	pages是一个变量，它保存着一个内存地址，即它指向一个变量，该变量保存的还是一个
+	  	内存地址，这个内存地址保存的是实实在在的"值"，其实"内存地址"也是值，它们的区别
+	  	只存在于我们的逻辑中。
+
+	  	符合上面的要求，则pages就是一个二级指针。但是实际中，我们会在中间那个变量上做
+	  	手脚，我们会创建一列这样的变量(即一个数组)，二级指针不关心中间变量之前、之后的
+	  	内存地址上放着什么，但是我们可以利用指针的加减法操作来很方便的定位这一列中间
+	  	变量。
+	 */
 	struct page **pages;
 	size_t buffer_size; // 总的buffer大小
 	uint32_t buffer_free; // 空闲的buffer大小
@@ -481,6 +501,7 @@ static size_t binder_buffer_size(struct binder_proc *proc,
 			struct binder_buffer, entry) - (size_t)buffer->data;
 }
 
+// 更新free buffer红黑树
 static void binder_insert_free_buffer(struct binder_proc *proc,
 				      struct binder_buffer *new_buffer)
 {
@@ -563,6 +584,8 @@ static struct binder_buffer *binder_buffer_lookup(struct binder_proc *proc,
 	return NULL;
 }
 
+// 为(end - start)这段内核虚拟内存分配/释放(allocate == 1)物理内存页，并将这些物理页
+// 关联到用户虚拟内存(*vma)
 static int binder_update_page_range(struct binder_proc *proc, int allocate,
 				    void *start, void *end,
 				    struct vm_area_struct *vma)
@@ -606,6 +629,7 @@ static int binder_update_page_range(struct binder_proc *proc, int allocate,
 		goto err_no_vma;
 	}
 
+	// 操作proc->pages[x]，为其赋值
 	for (page_addr = start; page_addr < end; page_addr += PAGE_SIZE) {
 		int ret;
 		struct page **page_array_ptr;
@@ -2002,7 +2026,7 @@ int binder_thread_write(struct binder_proc *proc, struct binder_thread *thread,
 
 		case BC_REQUEST_DEATH_NOTIFICATION:
 		case BC_CLEAR_DEATH_NOTIFICATION: {
-			// target: 该node death之后通知我
+			// target: 该node die之后通知我
 			// cookie: 我的联系方式
 			uint32_t target;
 			void __user *cookie;
@@ -2878,13 +2902,14 @@ static int binder_mmap(struct file *filp, struct vm_area_struct *vma)
 		goto err_already_mapped;
 	}
 
+	// 分配虚拟内存，此为一段连续的内核虚拟内存
 	area = get_vm_area(vma->vm_end - vma->vm_start, VM_IOREMAP);
 	if (area == NULL) {
 		ret = -ENOMEM;
 		failure_string = "get_vm_area";
 		goto err_get_vm_area_failed;
 	}
-	proc->buffer = area->addr;
+	proc->buffer = area->addr; // buffer执行虚拟内存的开始位置
 	proc->user_buffer_offset = vma->vm_start - (uintptr_t)proc->buffer;
 	mutex_unlock(&binder_mmap_lock);
 
@@ -2896,6 +2921,9 @@ static int binder_mmap(struct file *filp, struct vm_area_struct *vma)
 		}
 	}
 #endif
+	// 为pages指针数组分配内存，这只是分配了指针数组的内存，该数组的每一个元素都是执向page的指针，
+	// 而struct page的实际内存还没有分配
+	// proc->pages[0]是一个struct page*，所以其sizeof就等于sizeof(void*)，一个指针的大小。
 	proc->pages = kzalloc(sizeof(proc->pages[0]) * ((vma->vm_end - vma->vm_start) / PAGE_SIZE), GFP_KERNEL);
 	if (proc->pages == NULL) {
 		ret = -ENOMEM;
@@ -2914,7 +2942,7 @@ static int binder_mmap(struct file *filp, struct vm_area_struct *vma)
 	}
 	buffer = proc->buffer;
 	INIT_LIST_HEAD(&proc->buffers);
-	list_add(&buffer->entry, &proc->buffers);
+	list_add(&buffer->entry, &proc->buffers); // 加入buffers列表
 	buffer->free = 1;
 	binder_insert_free_buffer(proc, buffer);
 	proc->free_async_space = proc->buffer_size / 2;
