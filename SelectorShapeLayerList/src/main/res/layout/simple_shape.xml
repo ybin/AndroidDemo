@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical">
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/layer_list"
+        android:gravity="center"
+        android:text="7"
+        android:textColor="#f00"
+        android:textSize="30dp"/>
+
+    <ImageView
+        android:id="@+id/circle_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/level_list"/>
+
+    <ImageView
+        android:id="@+id/transition"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/transition_drawable"/>
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:clickable="true"
+        android:text="BUTTON"
+        android:textColor="#aeb"
+        android:background="@drawable/selector"/>
+</LinearLayout>
