@@ -1,10 +1,13 @@
 package com.ybin.drawablemodule;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -26,6 +29,8 @@ public class DrawableActivity extends Activity {
         demoLevelList();
         demoTransition();
         demoRoundedDrawable();
+        demoClipDrawable();
+        demoScaleDrawable();
     }
 
     private void demoLevelList() {
@@ -59,6 +64,34 @@ public class DrawableActivity extends Activity {
                 RoundedBitmapDrawableFactory.create(res, src);
         dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
         iv.setImageDrawable(dr);
+    }
+
+    private void demoClipDrawable() {
+        ImageView iv= (ImageView) findViewById(R.id.clip_drawable);
+        ClipDrawable drawable = (ClipDrawable) iv.getDrawable();
+        drawable.setLevel(10000);
+        final ObjectAnimator animator = ObjectAnimator.ofInt(drawable, "level", 0, 10000);
+        animator.setDuration(1000);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animator.start();
+            }
+        });
+    }
+
+    private void demoScaleDrawable() {
+        ImageView iv = (ImageView) findViewById(R.id.scale_drawable);
+        ScaleDrawable drawable = (ScaleDrawable) iv.getDrawable();
+        drawable.setLevel(10000);
+        final ObjectAnimator animator = ObjectAnimator.ofInt(drawable, "level", 0, 10000);
+        animator.setDuration(4000);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animator.start();
+            }
+        });
     }
 
     @Override

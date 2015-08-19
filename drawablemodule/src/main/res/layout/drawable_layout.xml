@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical">
-    <TextView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/layer_list"
-        android:gravity="center"
-        android:text="7"
-        android:textColor="#f00"
-        android:textSize="30dp"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/circle_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/level_list"/>
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentLeft="true"
+                  android:gravity="center"
+                  android:orientation="vertical">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/layer_list"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="#f00"
+            android:textSize="30dp"/>
 
-    <ImageView
-        android:id="@+id/transition"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/transition_drawable"/>
+        <ImageView
+            android:id="@+id/circle_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/level_list"/>
 
-    <Button
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:text="BUTTON"
-        android:textColor="#aeb"
-        android:background="@drawable/selector"/>
+        <ImageView
+            android:id="@+id/transition"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/transition_drawable"/>
 
-    <Button
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/ripple"
-        android:gravity="center"
-        android:text="9"
-        android:textColor="#f00"
-        android:textSize="30dp"/>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/selector"
+            android:text="BUTTON"
+            android:textColor="#aeb"/>
 
-    <ImageView
-        android:id="@+id/rounded_drawable"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:scaleType="fitXY"/>
-</LinearLayout>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/ripple"
+            android:gravity="center"
+            android:text="9"
+            android:textColor="#f00"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:id="@+id/rounded_drawable"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:elevation="18dp"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/clip_drawable"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/clip"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:gravity="center"
+                  android:orientation="vertical">
+        <ImageView android:id="@+id/scale_drawable"
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"
+                   android:src="@drawable/scale"/>
+    </LinearLayout>
+
+</RelativeLayout>
