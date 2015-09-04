@@ -5,4 +5,6 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="xxxx" parent="android:Theme.Holo.Light"/>
+
 </resources>

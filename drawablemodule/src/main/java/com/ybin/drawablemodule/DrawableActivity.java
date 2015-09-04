@@ -31,6 +31,7 @@ public class DrawableActivity extends Activity {
         demoRoundedDrawable();
         demoClipDrawable();
         demoScaleDrawable();
+        demoClipToOutline();
     }
 
     private void demoLevelList() {
@@ -92,6 +93,11 @@ public class DrawableActivity extends Activity {
                 animator.start();
             }
         });
+    }
+
+    private void demoClipToOutline() {
+        ImageView iv = (ImageView) findViewById(R.id.clip_outline);
+        iv.setClipToOutline(true);
     }
 
     @Override

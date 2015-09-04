@@ -68,6 +68,15 @@
                    android:layout_width="80dp"
                    android:layout_height="80dp"
                    android:src="@drawable/scale"/>
+
+        <ImageView
+            android:id="@+id/clip_outline"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/photo"
+            android:background="@drawable/background_shadow"
+            android:layout_margin="20dp"
+            android:elevation="20dp"/>
     </LinearLayout>
 
 </RelativeLayout>
