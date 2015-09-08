@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="500dp"
+              android:background="#ff0"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/the_text"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/webfont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/fa_linux"/>
+
+    <WebView
+        android:id="@+id/align_text"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:padding="0dp"/>
+
+    <ListView
+        android:id="@+id/the_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -73,10 +73,18 @@
             android:id="@+id/clip_outline"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/photo"
             android:background="@drawable/background_shadow"
             android:layout_margin="20dp"
             android:elevation="20dp"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="#5fff"
+            android:backgroundTint="#f00"
+            android:tint="#00f"
+            android:scaleType="centerInside"
+            android:src="@drawable/svg"/>
     </LinearLayout>
 
 </RelativeLayout>
