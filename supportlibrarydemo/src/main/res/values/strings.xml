@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SupportLibraryDemo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="open_drawer_desc">Open Drawer Desc</string>
+    <string name="close_drawer_desc">Close Drawer Desc</string>
+</resources>
