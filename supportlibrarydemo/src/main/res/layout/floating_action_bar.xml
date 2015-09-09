@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- floating action bar, must be the last one -->
+<android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="20dp"
+    android:src="@drawable/ic_plus"/>
