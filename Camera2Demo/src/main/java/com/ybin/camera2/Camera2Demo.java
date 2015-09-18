@@ -58,8 +58,8 @@ public class Camera2Demo extends Activity {
     private CaptureRequest.Builder mPreviewBuilder;
     private CameraCaptureSession mPreviewSession;
 
-    private TextureView.SurfaceTextureListener
-            mSurfaceTexutureListener = new TextureView.SurfaceTextureListener() {
+    private TextureView.SurfaceTextureListener mSurfaceTexutureListener
+            = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             Log.d(TAG, "onSurfaceTextureAvailable: " + width + "x" + height);
@@ -82,7 +82,9 @@ public class Camera2Demo extends Activity {
         }
     };
 
-    private CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
+    private CameraDevice.StateCallback mCameraDeviceStateCallback
+            = new CameraDevice.StateCallback() {
+
         @Override
         public void onOpened(CameraDevice camera) {
             Log.d(TAG, "onOpened.");
@@ -135,13 +137,14 @@ public class Camera2Demo extends Activity {
         Log.d(TAG, "openCamera()");
 
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+
         try {
             String cameraId = mCameraManager.getCameraIdList()[0];
             CameraCharacteristics chars = mCameraManager.getCameraCharacteristics(cameraId);
             StreamConfigurationMap map =
                     chars.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             mPreviewSize = map.getOutputSizes(SurfaceTexture.class)[0];
-            mCameraManager.openCamera(cameraId, mStateCallback, null);
+            mCameraManager.openCamera(cameraId, mCameraDeviceStateCallback, null);
         } catch (CameraAccessException e) {
             Log.d(TAG, "openCamera fail.");
             e.printStackTrace();
