@@ -3,17 +3,24 @@ package com.ybin.camera2;
 import android.app.Activity;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.ybin.camera2.camera.CameraModelImpl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +36,7 @@ public class MyCamera2 extends Activity {
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             surface.setDefaultBufferSize(width, height);
             ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
-
+            reader.setOnImageAvailableListener(mReaderListener, null);
             List<Surface> list = new ArrayList<>(1);
             list.add(new Surface(surface));
             list.add(reader.getSurface());
@@ -63,6 +70,40 @@ public class MyCamera2 extends Activity {
         }
     };
 
+    ImageReader.OnImageAvailableListener mReaderListener = new ImageReader.OnImageAvailableListener() {
+        final File file = new File(Environment.getExternalStorageDirectory() + "/DCIM",
+                "pic_" + System.currentTimeMillis() + ".jpg");
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+            Image image = null;
+            try {
+                image = reader.acquireLatestImage();
+                ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                byte[] bytes = new byte[buffer.capacity()];
+                buffer.get(bytes);
+                save(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if(image != null) {
+                    image.close();
+                }
+            }
+        }
+
+        private void save(byte[] bytes) throws IOException {
+            OutputStream output = null;
+            try {
+                output = new FileOutputStream(file);
+                output.write(bytes);
+            } finally {
+                if (output != null) {
+                    output.close();
+                }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,5 +131,11 @@ public class MyCamera2 extends Activity {
     protected void onPause() {
         super.onPause();
         mCameraModel.stopCamera();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.d(TAG, "dispatchTouchEvent " + ev.getAction());
+        return super.dispatchTouchEvent(ev);
     }
 }
