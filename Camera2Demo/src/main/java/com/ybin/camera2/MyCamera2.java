@@ -8,10 +8,10 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ybin.camera2.camera.CameraModelImpl;
@@ -30,6 +30,8 @@ public class MyCamera2 extends Activity {
     private TextureView mTextView;
     private ImageView mPreviewCover;
     private CameraModelImpl mCameraModel;
+    private ImageReader mImageReader;
+    private List<Surface> mSurfaceList = new ArrayList<>(2);
     private TextureView.SurfaceTextureListener mSurfaceTextureListener
             = new TextureView.SurfaceTextureListener() {
         @Override
@@ -37,12 +39,13 @@ public class MyCamera2 extends Activity {
             Log.d(TAG, "onSurfaceTextureAvailable() called with " + "surface = [" + surface
                     + "], width = [" + width + "], height = [" + height + "]");
             surface.setDefaultBufferSize(width, height);
-            ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
-            reader.setOnImageAvailableListener(mReaderListener, null);
-            List<Surface> list = new ArrayList<>(2);
-            list.add(new Surface(surface));
-            list.add(reader.getSurface());
-            mCameraModel.setSurfaceList(list);
+            mSurfaceList.add(0, new Surface(surface));
+
+            mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
+            mImageReader.setOnImageAvailableListener(mReaderListener, null);
+            mSurfaceList.add(1, mImageReader.getSurface());
+
+            mCameraModel.setSurfaceList(mSurfaceList);
             mCameraModel.open();
         }
 
@@ -67,14 +70,13 @@ public class MyCamera2 extends Activity {
             = new CameraModelImpl.PreviewDataAvailableCallback() {
         @Override
         public void onPreviewDataAvailable(long frameNumber) {
-//            mPreviewCover.setVisibility(View.GONE);
-            mPreviewCover.animate().setDuration(500).translationX(1080).start();
+//            mPreviewCover.setTranslationX(0);
+            mPreviewCover.animate().setDuration(300).translationX(1080).start();
         }
     };
 
     ImageReader.OnImageAvailableListener mReaderListener = new ImageReader.OnImageAvailableListener() {
-        final File file = new File(Environment.getExternalStorageDirectory() + "/DCIM",
-                "pic_" + System.currentTimeMillis() + ".jpg");
+
         @Override
         public void onImageAvailable(ImageReader reader) {
             Image image = null;
@@ -83,7 +85,10 @@ public class MyCamera2 extends Activity {
                 ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                 byte[] bytes = new byte[buffer.capacity()];
                 buffer.get(bytes);
-                save(bytes);
+
+                File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/Camera",
+                        "pic_" + System.currentTimeMillis() + ".jpg");
+                save(bytes, file);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -93,11 +98,15 @@ public class MyCamera2 extends Activity {
             }
         }
 
-        private void save(byte[] bytes) throws IOException {
+        private void save(byte[] bytes, File file) throws IOException {
+            Log.d(TAG, "save() called with " + "bytes = [" + bytes + "], file = [" + file + "]");
             OutputStream output = null;
             try {
                 output = new FileOutputStream(file);
                 output.write(bytes);
+            } catch (Exception e) {
+                Log.e(TAG, "save error.");
+                e.printStackTrace();
             } finally {
                 if (output != null) {
                     output.close();
@@ -108,6 +117,7 @@ public class MyCamera2 extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_camera_layout);
 
@@ -116,28 +126,38 @@ public class MyCamera2 extends Activity {
         mTextView.setSurfaceTextureListener(mSurfaceTextureListener);
         mPreviewCover = (ImageView) findViewById(R.id.privew_cover);
         mCameraModel.setPreviewAvailableCallback(mPreviewAvailableCallback);
+
+        Button capture = (Button) findViewById(R.id.capture_button);
+        capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "do capture.");
+                mCameraModel.capture();
+            }
+        });
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_DOWN:
-                mCameraModel.capture();
-                Log.d(TAG, "onKeyDown over");
-                return true;
+    protected void onResume() {
+        Log.d(TAG, "onResume");
+        super.onResume();
+        if (mTextView.isAvailable()) {
+            mCameraModel.open();
         }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
         mCameraModel.close();
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.d(TAG, "dispatchTouchEvent " + ev.getAction());
-        return super.dispatchTouchEvent(ev);
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy");
+        super.onDestroy();
+        mCameraModel.release();
+        mImageReader.close();
     }
 }
