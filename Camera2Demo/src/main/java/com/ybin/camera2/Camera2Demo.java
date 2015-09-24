@@ -221,6 +221,7 @@ public class Camera2Demo extends Activity {
             if (chars != null) {
                 jpegSizes = chars.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
                         .getOutputSizes(ImageFormat.JPEG);
+
             }
 
             int width = 640;
@@ -228,6 +229,7 @@ public class Camera2Demo extends Activity {
             if (jpegSizes != null && jpegSizes.length > 0) {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
+                Log.d(TAG, "takePicture : " + jpegSizes[0] + jpegSizes[1]);
             }
 
             ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);

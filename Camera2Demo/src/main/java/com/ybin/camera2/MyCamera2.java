@@ -34,14 +34,16 @@ public class MyCamera2 extends Activity {
             = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            Log.d(TAG, "onSurfaceTextureAvailable() called with " + "surface = [" + surface
+                    + "], width = [" + width + "], height = [" + height + "]");
             surface.setDefaultBufferSize(width, height);
             ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             reader.setOnImageAvailableListener(mReaderListener, null);
-            List<Surface> list = new ArrayList<>(1);
+            List<Surface> list = new ArrayList<>(2);
             list.add(new Surface(surface));
             list.add(reader.getSurface());
             mCameraModel.setSurfaceList(list);
-            mCameraModel.openCamera("0");
+            mCameraModel.open();
         }
 
         @Override
@@ -109,7 +111,7 @@ public class MyCamera2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_camera_layout);
 
-        mCameraModel = new CameraModelImpl(this);
+        mCameraModel = new CameraModelImpl(this, "0");
         mTextView = (TextureView) findViewById(R.id.preview);
         mTextView.setSurfaceTextureListener(mSurfaceTextureListener);
         mPreviewCover = (ImageView) findViewById(R.id.privew_cover);
@@ -130,7 +132,7 @@ public class MyCamera2 extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        mCameraModel.stopCamera();
+        mCameraModel.close();
     }
 
     @Override
