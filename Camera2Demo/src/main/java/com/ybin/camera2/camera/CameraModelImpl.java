@@ -250,6 +250,8 @@ public class CameraModelImpl implements CameraModel {
 
         // request parameters....................
         requestBuilder.addTarget(mSurfaceList.get(1));
+        requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+        requestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT, CaptureRequest.CONTROL_CAPTURE_INTENT_ZERO_SHUTTER_LAG);
 
         try {
             mCaptureSession.capture(requestBuilder.build(), mCaptureRequestCallback, mHandler);
