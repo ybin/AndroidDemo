@@ -1,5 +1,11 @@
+repository-5.xml
+repository-6.xml
+repository-7.xml
+repository-8.xml
 repository-10.xml
 addon.xml
+addons_list-1.xml
+addons_list-2.xml
 
 android-21_r02.zip
 android-22_r02.zip
@@ -9,8 +15,13 @@ samples-21_r04.zip
 samples-22_r06.zip
 samples-23_r02.zip
 
+tools_r22.6.2-windows.zip
+tools_r24.0.2-windows.zip
 tools_r24.4-windows.zip
+platform-tools_r19.0.1-windows.zip
+platform-tools_r20-windows.zip
 platform-tools_r23.0.1-windows.zip
+
 build-tools_r20-windows.zip
 build-tools_r21-windows.zip
 build-tools_r21.0.1-windows.zip
