@@ -1,4 +1,4 @@
-package com.ybin.camera2.camera;
+package com.ybin.camera2.camerasvc;
 
 interface CameraModel {
 

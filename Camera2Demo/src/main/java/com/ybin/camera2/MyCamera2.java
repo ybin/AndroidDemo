@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.ybin.camera2.camera.CameraModelImpl;
+import com.ybin.camera2.camerasvc.CameraModelImpl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,11 +23,6 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class MyCamera2 extends Activity {
     private static final String TAG = MyCamera2.class.getSimpleName();
@@ -140,26 +135,6 @@ public class MyCamera2 extends Activity {
                 mCameraModel.capture();
             }
         });
-
-        Observable.just("one", "two", "three", "four", "five")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "onError");
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        Log.d(TAG, "onNext: " + s);
-                    }
-                });
     }
 
     @Override

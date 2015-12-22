@@ -1,4 +1,4 @@
-package com.ybin.camera2.camera;
+package com.ybin.camera2.camerasvc;
 
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
