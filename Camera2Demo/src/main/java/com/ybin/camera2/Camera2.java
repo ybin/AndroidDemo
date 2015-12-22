@@ -12,9 +12,8 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import com.ybin.camera2.camerasvc.CameraModelImpl;
+import com.ybin.camera2.camerasvc.Camera2Impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,12 +23,11 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyCamera2 extends Activity {
-    private static final String TAG = MyCamera2.class.getSimpleName();
+public class Camera2 extends Activity {
+    private static final String TAG = Camera2.class.getSimpleName();
 
     private TextureView mTextView;
-    private ImageView mPreviewCover;
-    private CameraModelImpl mCameraModel;
+    private Camera2Impl mCameraService;
     private ImageReader mImageReader;
     private List<Surface> mSurfaceList = new ArrayList<>(2);
     private TextureView.SurfaceTextureListener mSurfaceTextureListener
@@ -45,8 +43,8 @@ public class MyCamera2 extends Activity {
             mImageReader.setOnImageAvailableListener(mReaderListener, null);
             mSurfaceList.add(1, mImageReader.getSurface());
 
-            mCameraModel.setSurfaceList(mSurfaceList);
-            mCameraModel.open();
+            mCameraService.setSurfaces(mSurfaceList);
+            mCameraService.init("0", mSurfaceList, null);
         }
 
         @Override
@@ -66,16 +64,8 @@ public class MyCamera2 extends Activity {
         }
     };
 
-    private CameraModelImpl.PreviewDataAvailableCallback mPreviewAvailableCallback
-            = new CameraModelImpl.PreviewDataAvailableCallback() {
-        @Override
-        public void onPreviewDataAvailable(long frameNumber) {
-//            mPreviewCover.setTranslationX(0);
-            mPreviewCover.animate().setDuration(300).translationX(1080).start();
-        }
-    };
-
-    ImageReader.OnImageAvailableListener mReaderListener = new ImageReader.OnImageAvailableListener() {
+    ImageReader.OnImageAvailableListener mReaderListener
+            = new ImageReader.OnImageAvailableListener() {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
@@ -121,18 +111,16 @@ public class MyCamera2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_camera_layout);
 
-        mCameraModel = new CameraModelImpl(this, "0");
+        mCameraService = new Camera2Impl(this);
         mTextView = (TextureView) findViewById(R.id.preview);
         mTextView.setSurfaceTextureListener(mSurfaceTextureListener);
-        mPreviewCover = (ImageView) findViewById(R.id.privew_cover);
-        mCameraModel.setPreviewAvailableCallback(mPreviewAvailableCallback);
 
         Button capture = (Button) findViewById(R.id.capture_button);
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "do capture.");
-                mCameraModel.capture();
+                mCameraService.capture();
             }
         });
     }
@@ -142,7 +130,7 @@ public class MyCamera2 extends Activity {
         Log.d(TAG, "onResume");
         super.onResume();
         if (mTextView.isAvailable()) {
-            mCameraModel.open();
+//            mCameraService.startPreview();
         }
     }
 
@@ -150,14 +138,14 @@ public class MyCamera2 extends Activity {
     protected void onPause() {
         Log.d(TAG, "onPause");
         super.onPause();
-        mCameraModel.close();
+        mCameraService.stopPreview();
     }
 
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy");
         super.onDestroy();
-        mCameraModel.release();
+        mCameraService.release();
         mImageReader.close();
     }
 }

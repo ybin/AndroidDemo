@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Camera2Demo</string>
-    <string name="app_name2">My Camera2</string>
+    <string name="app_name2">Camera2</string>
     <string name="action_settings">Settings</string>
 
 </resources>
