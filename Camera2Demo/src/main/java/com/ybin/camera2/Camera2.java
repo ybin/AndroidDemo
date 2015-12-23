@@ -26,7 +26,7 @@ import java.util.List;
 public class Camera2 extends Activity {
     private static final String TAG = Camera2.class.getSimpleName();
 
-    private TextureView mTextView;
+    private TextureView mTextureView;
     private Camera2Impl mCameraService;
     private ImageReader mImageReader;
     private List<Surface> mSurfaceList = new ArrayList<>(2);
@@ -43,8 +43,8 @@ public class Camera2 extends Activity {
             mImageReader.setOnImageAvailableListener(mReaderListener, null);
             mSurfaceList.add(1, mImageReader.getSurface());
 
-            mCameraService.setSurfaces(mSurfaceList);
-            mCameraService.init("0", mSurfaceList, null);
+//            mCameraService.setSurfaces(mSurfaceList);
+//            mCameraService.init("0", mSurfaceList);
         }
 
         @Override
@@ -111,9 +111,18 @@ public class Camera2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_camera_layout);
 
-        mCameraService = new Camera2Impl(this);
-        mTextView = (TextureView) findViewById(R.id.preview);
-        mTextView.setSurfaceTextureListener(mSurfaceTextureListener);
+        mCameraService = new Camera2Impl(this, "0", null);
+        mTextureView = (TextureView) findViewById(R.id.preview);
+        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+
+        Button preview = (Button) findViewById(R.id.preview_button);
+        preview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "start preview.");
+                mCameraService.startPreview();
+            }
+        });
 
         Button capture = (Button) findViewById(R.id.capture_button);
         capture.setOnClickListener(new View.OnClickListener() {
@@ -126,25 +135,9 @@ public class Camera2 extends Activity {
     }
 
     @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume");
-        super.onResume();
-        if (mTextView.isAvailable()) {
-//            mCameraService.startPreview();
-        }
-    }
-
-    @Override
     protected void onPause() {
         Log.d(TAG, "onPause");
         super.onPause();
-        mCameraService.stopPreview();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy");
-        super.onDestroy();
         mCameraService.release();
         mImageReader.close();
     }
