@@ -43,8 +43,8 @@ public class Camera2 extends Activity {
             mImageReader.setOnImageAvailableListener(mReaderListener, null);
             mSurfaceList.add(1, mImageReader.getSurface());
 
-//            mCameraService.setSurfaces(mSurfaceList);
-//            mCameraService.init("0", mSurfaceList);
+            mCameraService.setSurfaces(mSurfaceList);
+            mCameraService.startPreview();
         }
 
         @Override
@@ -114,15 +114,6 @@ public class Camera2 extends Activity {
         mCameraService = new Camera2Impl(this, "0", null);
         mTextureView = (TextureView) findViewById(R.id.preview);
         mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
-
-        Button preview = (Button) findViewById(R.id.preview_button);
-        preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "start preview.");
-                mCameraService.startPreview();
-            }
-        });
 
         Button capture = (Button) findViewById(R.id.capture_button);
         capture.setOnClickListener(new View.OnClickListener() {

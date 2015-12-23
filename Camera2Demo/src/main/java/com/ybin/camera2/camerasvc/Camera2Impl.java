@@ -25,7 +25,7 @@ public class Camera2Impl implements CameraService {
 
     private int mDeviceState = STATE_UNAVAILABLE;
     private int mSessionState = STATE_UNAVAILABLE;
-    private boolean mNeedCreateSession = false;
+    private boolean mNeedStartPreview = false;
 
     private CameraManager mCameraManager;
     private CameraDevice mCameraDevice;
@@ -36,18 +36,18 @@ public class Camera2Impl implements CameraService {
         @Override
         public void onCameraAvailable(String cameraId) {
             Log.d(TAG, "onCameraAvailable " + cameraId);
-            if (mCameraId.equals(cameraId)) {
-                openCamera();
-            }
+//            if (mCameraId.equals(cameraId)) {
+//                openCamera();
+//            }
         }
 
         @Override
         public void onCameraUnavailable(String cameraId) {
             Log.d(TAG, "onCameraUnavailable " + cameraId);
-            if (mCameraId.equals(cameraId)) {
-                mDeviceState = STATE_UNAVAILABLE;
-                closeCamera();
-            }
+//            if (mCameraId.equals(cameraId)) {
+//                mDeviceState = STATE_UNAVAILABLE;
+//                closeCamera();
+//            }
         }
     };
 
@@ -59,9 +59,7 @@ public class Camera2Impl implements CameraService {
             mDeviceState = STATE_AVAILABLE;
             Log.d(TAG, "onOpened: " + mCameraId);
 
-            if (mNeedCreateSession) {
-                createSession();
-            }
+            createSession();
         }
 
         @Override
@@ -98,6 +96,11 @@ public class Camera2Impl implements CameraService {
             mSessionState = STATE_AVAILABLE;
             mCaptureSession = session;
             Log.d(TAG, "onConfigured: session confiured.");
+
+            if (mNeedStartPreview) {
+                startPreview();
+                mNeedStartPreview = false;
+            }
         }
 
         @Override
@@ -126,16 +129,10 @@ public class Camera2Impl implements CameraService {
     private void closeCamera() {
         if (mDeviceState == STATE_AVAILABLE) {
             mCameraDevice.close();
-            mCameraDevice = null;
         }
     }
 
     private void createSession() {
-        if (mDeviceState != STATE_AVAILABLE) {
-            mNeedCreateSession = true;
-            return;
-        }
-
         try {
             mCameraDevice.createCaptureSession(mSurfaceList, mSessionStateCallback, mHandler);
         } catch (CameraAccessException e) {
@@ -186,7 +183,7 @@ public class Camera2Impl implements CameraService {
         }
 
         mSurfaceList = list;
-        createSession();
+        openCamera();
     }
 
     @Override
@@ -209,6 +206,7 @@ public class Camera2Impl implements CameraService {
     @Override
     public void startPreview() {
         if (mSessionState != STATE_AVAILABLE) {
+            mNeedStartPreview = true;
             Log.e(TAG, "startPreview, not configured yet.");
             return;
         }

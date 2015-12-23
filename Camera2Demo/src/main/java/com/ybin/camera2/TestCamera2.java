@@ -15,6 +15,7 @@ import java.util.List;
 
 public class TestCamera2 extends Activity {
     private static final String TAG = "TestCamera2";
+    Camera2Impl imple;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +25,9 @@ public class TestCamera2 extends Activity {
         surfaces.add(new Surface(new SurfaceTexture(0)));
         surfaces.add(new Surface(new SurfaceTexture(1)));
 
-        Camera2Impl imple = new Camera2Impl(this, "0", null);
+        imple = new Camera2Impl(this, "0", null);
         imple.setSurfaces(surfaces);
 
-        CameraManager mgr = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-        mgr.registerAvailabilityCallback(new CameraManager.AvailabilityCallback() {
-            @Override
-            public void onCameraAvailable(String cameraId) {
-                Log.d(TAG, "onCameraAvailable: " + cameraId);
-            }
-        }, null);
+        imple.startPreview();
     }
 }
