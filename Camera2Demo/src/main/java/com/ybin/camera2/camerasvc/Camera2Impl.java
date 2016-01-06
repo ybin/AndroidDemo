@@ -3,14 +3,17 @@ package com.ybin.camera2.camerasvc;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 public class Camera2Impl implements CameraService {
@@ -163,18 +166,25 @@ public class Camera2Impl implements CameraService {
         mHandler = handler;
         mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         mCameraManager.registerAvailabilityCallback(mAvailabilityCallback, mHandler);
-        Log.d(TAG, "Camera2Impl: " + mCameraId);
+
+
+        try {
+            CameraCharacteristics characteristics = mCameraManager.getCameraCharacteristics("0");
+            List<CameraCharacteristics.Key<?>> keys = characteristics.getKeys();
+            for (CameraCharacteristics.Key<?> k : keys) {
+                Log.d(TAG, "Camera2Impl: " + k.getName() + " = " + characteristics.get(k));
+                if (characteristics.get(k) instanceof int[]) {
+                    for (int i :
+                            (int[]) characteristics.get(k)) {
+                        Log.d(TAG, "Camera2Impl: vvv: " + i);
+                    }
+                }
+            }
+
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
-
-
-
-
-
-
-
-
-
-    //@@@@@@@@@@@@@@@@@@@   @@@@@@@@@@@@@@@@@//
 
     @Override
     public void setSurfaces(List<Surface> list) {
@@ -257,7 +267,21 @@ public class Camera2Impl implements CameraService {
 
     @Override
     public void startBurst() {
+        if (mSessionState != STATE_AVAILABLE) {
+            Log.e(TAG, "startBurst: not configured yet.");
+            return;
+        }
 
+        CaptureRequest.Builder requestBuilder = getRequestBuilder(CameraDevice.TEMPLATE_STILL_CAPTURE);
+        requestBuilder.addTarget(mSurfaceList.get(1));
+        requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+        requestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT, CaptureRequest.CONTROL_CAPTURE_INTENT_ZERO_SHUTTER_LAG);
+
+        try {
+            mCaptureSession.setRepeatingRequest(requestBuilder.build(), null, mHandler);
+        } catch (CameraAccessException e) {
+            Log.e(TAG, "capture failed.");
+        }
     }
 
     @Override
@@ -282,6 +306,5 @@ public class Camera2Impl implements CameraService {
 
     @Override
     public void getSupportedParameterAsync() {
-
     }
 }
